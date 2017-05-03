@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools = "http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Map"
+    android:layout_weight="1"
+    >
+
+    <com.google.android.gms.maps.MapView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id = "@+id/mapfrag"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_gravity="bottom"
+        android:visibility="invisible"
+        android:id = "@+id/popupwindow"
+        android:background= "@drawable/bg_focused"
+        android:layout_marginBottom="50dp"
+        >
+
+        <TextView
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:id = "@+id/nompopup"
+            android:text = "Nom du parking"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_alignParentRight="true"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:paddingLeft="20dp"
+            android:id = "@+id/probapopup"
+            android:text = "70%"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_below="@id/nompopup"
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:id = "@+id/adressepopup"
+            android:text = "51 Ch. des Mouilles, Écully 69130."
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_below="@id/adressepopup"
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:id = "@+id/gestionnairepopuptext"
+            android:text = "Gestionnaire:"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_toRightOf="@id/gestionnairepopuptext"
+            android:layout_below="@id/adressepopup"
+            android:paddingLeft="0dp"
+            android:paddingTop="10dp"
+            android:id = "@+id/gestionnairepopup"
+            android:text = "Grand Lyon"
+            />
+
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src = "@drawable/car"
+            android:layout_below="@id/gestionnairepopuptext"
+            android:paddingTop="0dp"
+            android:paddingLeft="20dp"
+            android:id = "@+id/carpopup"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_below="@id/gestionnairepopuptext"
+            android:layout_toRightOf="@id/carpopup"
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="22dp"
+            android:id = "@+id/capacitepopup"
+            android:text = "500 voitures"
+            />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src = "@drawable/arrow_right"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:id = "@+id/gotomaps"
+            android:paddingRight="20dp"
+            android:paddingBottom="20dp"
+            />
+    </RelativeLayout>
+</FrameLayout>

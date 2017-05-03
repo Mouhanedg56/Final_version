@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="10dp"
+    card_view:cardCornerRadius="5dp"
+    card_view:cardElevation="5dp"
+    android:layout_height="250dp"
+    android:background="@drawable/bg_focused">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="210dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Nom"
+                android:id="@+id/name"
+                android:padding="10dp"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:layout_alignParentLeft="true"
+                />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Capacité"
+                    android:id="@+id/capa"
+                    android:padding="10dp"
+                    android:layout_alignParentLeft="true"
+                    />
+                <TextView
+                    android:layout_width="188dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="100"
+                    android:textSize="20dp"
+                    android:id="@+id/capacity"
+                    android:padding="10dp"
+                    android:layout_alignParentLeft="true"
+                    />
+
+                />
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Type"
+                    android:id="@+id/type"
+                    android:padding="10dp"
+                    android:layout_alignParentLeft="true"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="public"
+                    android:id="@+id/typeTxt"
+                    android:padding="10dp"
+                    android:layout_alignParentLeft="true"
+                    ></TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Frais"
+                    android:id="@+id/frais"
+                    android:padding="10dp"
+                    android:layout_alignParentLeft="true"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="gratuit"
+                    android:id="@+id/fraisTxt"
+                    android:padding="10dp"
+                    android:layout_alignParentLeft="true"
+                    ></TextView>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="99dp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="proba"
+                android:lines="1"
+                android:id="@+id/proba"
+                android:padding="10dp"
+                android:textSize="40dp"
+                android:textColor="#FFA228"
+                android:layout_alignParentLeft="true"
+                />
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="%"
+                android:lines="1"
+                android:id="@+id/end"
+                android:padding="0dp"
+                android:textSize="30dp"
+                android:textColor="#FFA228"
+                android:layout_alignParentLeft="true"
+                />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

@@ -117,6 +117,7 @@ public class TransitionActivity extends AppCompatActivity {
 
 
 
+
     public class JSONtask extends AsyncTask<URL, String, String> {
 
         @Override
@@ -320,5 +321,12 @@ public class TransitionActivity extends AppCompatActivity {
             new  JSONtask().execute();
             countDownLatch.countDown();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent("com.example.jeren.parking.WELCOME");
+        startActivity(i);
+        finish();
     }
 }

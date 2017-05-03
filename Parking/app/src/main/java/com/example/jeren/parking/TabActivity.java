@@ -94,24 +94,24 @@ public class TabActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-       mViewPager = (ViewPager) findViewById(R.id.viewpager);
-       setupViewPager(mViewPager);
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(mViewPager);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
 
 
-            Intent intent = getIntent();
-            destination = intent.getStringExtra("destination");
-            date = intent.getStringExtra("date");
-            depart_time = intent.getStringExtra("depart_time");
-            rayon = intent.getExtras().getInt("rayon");
-            parkingsAvecTR = intent.getIntegerArrayListExtra("parkingsAvecTR");
-            etat_parkingsAvecTR = intent.getStringArrayListExtra("etat_parkingsAvecTR");
-            list_parking = intent.getIntegerArrayListExtra("list_parking");
-            System.out.println("From TabActivity: etat");
-            System.out.println(etat_parkingsAvecTR);
+        Intent intent = getIntent();
+        destination = intent.getStringExtra("destination");
+        date = intent.getStringExtra("date");
+        depart_time = intent.getStringExtra("depart_time");
+        rayon = intent.getExtras().getInt("rayon");
+        parkingsAvecTR = intent.getIntegerArrayListExtra("parkingsAvecTR");
+        etat_parkingsAvecTR = intent.getStringArrayListExtra("etat_parkingsAvecTR");
+        list_parking = intent.getIntegerArrayListExtra("list_parking");
+        System.out.println("From TabActivity: etat");
+        System.out.println(etat_parkingsAvecTR);
 
 
 
@@ -288,16 +288,22 @@ public class TabActivity extends AppCompatActivity {
         return p1;
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent i = new Intent("com.example.jeren.parking.WELCOME");
+        startActivity(i);
+        finish();
+    }
 
 }
 
 
 
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
+/**
+ * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+ * one of the sections/tabs/pages.
+ */
 
 
 

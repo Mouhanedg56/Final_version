@@ -81,7 +81,7 @@ import android.view.LayoutInflater;
 
 import static android.content.ContentValues.TAG;
 
-public  class Map extends Fragment implements OnMapReadyCallback, DirectionFinderListener {
+public  class Map extends Fragment implements OnMapReadyCallback {
 
     GoogleMap mMap;
     MapView mMapView;
@@ -113,7 +113,7 @@ public  class Map extends Fragment implements OnMapReadyCallback, DirectionFinde
     ImageView LaunchGoogle;
     Marker selectedMarker;
     String selectedMarkerAdress;
-
+    Marker destinationMarker;
 
     public Map() {
 
@@ -191,7 +191,7 @@ public  class Map extends Fragment implements OnMapReadyCallback, DirectionFinde
         capacitepopup = (TextView) getView().findViewById(R.id.capacitepopup);
         adressepopup = (TextView) getView().findViewById(R.id.adressepopup);
         LaunchGoogle = (ImageView) getView().findViewById(R.id.gotomaps);
-        mMap.addMarker(new MarkerOptions().position(destinationcoord).title(destination));
+        destinationMarker = mMap.addMarker(new MarkerOptions().position(destinationcoord).title(destination));
 
 
         try {
@@ -199,14 +199,14 @@ public  class Map extends Fragment implements OnMapReadyCallback, DirectionFinde
             for (int i = 0; i < list_parking.size(); i++) {
                 double[] coor_park = Parking.getCoordIndex(list_parking.get(i));
                 if (Parking.gratuit(list_parking.get(i))) {
-                    MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(coor_park[1], coor_park[0])).title(Parking.getNomIndex(list_parking.get(i))).snippet(Parking.getCapaciteIndex(list_parking.get(i))).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                    MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(coor_park[1], coor_park[0])).title(Parking.getNomIndex(list_parking.get(i))).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                     Marker marker = mMap.addMarker(markerOptions);
                     MarkerCap.put(marker, Parking.getCapaciteIndex(list_parking.get(i)));
                     MarkerNom.put(marker, Parking.getNomIndex(list_parking.get(i)));
                     MarkerCoord.put(marker, Parking.getCoordIndex(list_parking.get(i)));
                     MarkerGestionnaire.put(marker, Parking.getGestionnaireIndex(list_parking.get(i)));
                 } else {
-                    MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(coor_park[1], coor_park[0])).title(Parking.getNomIndex(list_parking.get(i))).snippet(Parking.getCapaciteIndex(list_parking.get(i))).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+                    MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(coor_park[1], coor_park[0])).title(Parking.getNomIndex(list_parking.get(i))).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
                     Marker marker = mMap.addMarker(markerOptions);
                     MarkerCap.put(marker, Parking.getCapaciteIndex(list_parking.get(i)));
                     MarkerNom.put(marker, Parking.getNomIndex(list_parking.get(i)));
@@ -232,13 +232,16 @@ public  class Map extends Fragment implements OnMapReadyCallback, DirectionFinde
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                nompopup.setText((String) MarkerNom.get(marker));
-                gestionnairepopup.setText((String) MarkerGestionnaire.get(marker));
-                capacitepopup.setText((String) MarkerCap.get(marker));
-                relativeLayout.setVisibility(View.INVISIBLE);
-                selectedMarker = marker;
-                String filterAddress = "";
-                new FillPopUpWindow(selectedMarker).execute();
+                if (MarkerNom.containsKey(marker)) {
+                    nompopup.setText((String) MarkerNom.get(marker));
+                    gestionnairepopup.setText((String) MarkerGestionnaire.get(marker));
+                    capacitepopup.setText((String) MarkerCap.get(marker));
+                    relativeLayout.setVisibility(View.INVISIBLE);
+                    selectedMarker = marker;
+                    String filterAddress = "";
+                    new FillPopUpWindow(selectedMarker).execute();}
+                else
+                {relativeLayout.setVisibility(View.INVISIBLE);}
                 /*
                 Geocoder geoCoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
                 try {
@@ -328,63 +331,6 @@ public  class Map extends Fragment implements OnMapReadyCallback, DirectionFinde
     }
 
 
-    @Override
-    public void onDirectionFinderStart() {
-        progressDialog = ProgressDialog.show(getActivity(), "Please wait.",
-                "Finding direction..!", true);
-
-        if (originMarkers != null) {
-            for (Marker marker : originMarkers) {
-                marker.remove();
-            }
-        }
-
-        if (destinationMarkers != null) {
-            for (Marker marker : destinationMarkers) {
-                marker.remove();
-            }
-        }
-
-        if (polylinePaths != null) {
-            for (Polyline polyline : polylinePaths) {
-                polyline.remove();
-            }
-        }
-    }
-
-    @Override
-    public void onDirectionFinderSuccess(List<Route> routes) {
-        progressDialog.dismiss();
-        polylinePaths = new ArrayList<>();
-        originMarkers = new ArrayList<>();
-        destinationMarkers = new ArrayList<>();
-
-        for (Route route : routes) {
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(route.startLocation, 16));
-            ///  ((TextView) getView().findViewById(R.id.tvDuration)).setText(route.duration.text);
-            ///  ((TextView) getView().findViewById(R.id.tvDistance)).setText(route.distance.text);
-
-            originMarkers.add(mMap.addMarker(new MarkerOptions()
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.start_blue))
-                    .title(route.startAddress)
-                    .position(route.startLocation)));
-            destinationMarkers.add(mMap.addMarker(new MarkerOptions()
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.end_green))
-                    .title(route.endAddress)
-                    .position(route.endLocation)));
-
-            PolylineOptions polylineOptions = new PolylineOptions().
-                    geodesic(true).
-                    color(Color.BLUE).
-                    width(10);
-
-            for (int i = 0; i < route.points.size(); i++)
-                polylineOptions.add(route.points.get(i));
-
-            polylinePaths.add(mMap.addPolyline(polylineOptions));
-        }
-    }
-
     private void addIcon(GoogleMap map, IconGenerator iconFactory, CharSequence text, LatLng position) {
         MarkerOptions markerOptions = new MarkerOptions().
                 icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(text))).
@@ -410,8 +356,13 @@ public  class Map extends Fragment implements OnMapReadyCallback, DirectionFinde
                         geoCoder.getFromLocation(((double[]) MarkerCoord.get(marker))[1], ((double[]) MarkerCoord.get(marker))[0], 1);
 
                 if (addresses.size() > 0) {
-                    for (int i = 0; i < addresses.get(0).getMaxAddressLineIndex(); i++)
-                        filterAddress += addresses.get(0).getAddressLine(i) + ",";
+                    for (int i = 0; i < addresses.get(0).getMaxAddressLineIndex(); i++) {
+                        if (i == 1) {
+                            filterAddress += addresses.get(0).getAddressLine(i) + ".";
+                        }
+                        else{filterAddress += addresses.get(0).getAddressLine(i) + ", ";}
+
+                    }
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();

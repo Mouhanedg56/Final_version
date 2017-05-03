@@ -97,9 +97,9 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
         hour = (Spinner) findViewById(R.id.hour);
         minute = (Spinner) findViewById(R.id.minute);
         recherche = (Button) findViewById(R.id.recherche);
-        radioGratuit = (RadioButton) findViewById(R.id.radio_gratuit);
-        radioPayant = (RadioButton) findViewById(R.id.radio_payant);
-        radioJemenfou = (RadioButton) findViewById(R.id.radio_jemenfou);
+        radioGratuit = (RadioButton) findViewById(R.id.radio_gratuit); ///parkings gratuits selectionnés
+        radioPayant = (RadioButton) findViewById(R.id.radio_payant); /// parkings payants selectionnés
+        radioJemenfou = (RadioButton) findViewById(R.id.radio_jemenfou); /// parkings payants ou gratuits (je m'en fou)
         radioGroup = (RadioGroup) findViewById(R.id.radio_group);
 
         mGoogleApiClient = new GoogleApiClient.Builder(Welcome.this)
@@ -107,7 +107,7 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
                 .enableAutoManage(this, GOOGLE_API_CLIENT_ID, this)
                 .addConnectionCallbacks(this)
                 .build();
-        destination = (AutoCompleteTextView) findViewById(R.id.address);
+        destination = (AutoCompleteTextView) findViewById(R.id.address); ///Proposer une liste des adresses
 
         destination.setOnItemClickListener(mDestinationClickListener);
         mPlaceArrayAdapter = new PlaceArrayAdapter(this, android.R.layout.simple_list_item_1,
@@ -122,22 +122,22 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
     }
 
     public void GoToMap(View v){
-        String todestination = destination.getText().toString();
-        String todate = day.getSelectedItem().toString() + month.getSelectedItem().toString() + year.getSelectedItem().toString();
-        String depart_time = hour.getSelectedItem().toString() + ':' + minute.getSelectedItem().toString();
+        String todestination = destination.getText().toString(); ///prendre le texte de la destination saisie par l'utilisateur
+        String todate = day.getSelectedItem().toString() + month.getSelectedItem().toString() + year.getSelectedItem().toString(); ///prendre le jour, le mois et l'année que l'utilisateur a choisi
+        String depart_time = hour.getSelectedItem().toString() + ':' + minute.getSelectedItem().toString(); /// idem pour l'heure et les minutes
         if (todestination.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Please enter destination address!", Toast.LENGTH_SHORT).show();
             return;
         }
 
 
-        rayon = seek_bar.getProgress();
-        Intent i = new Intent("com.example.jeren.parking.TRANSITION");
-        i.putExtra("destination",todestination);
+        rayon = seek_bar.getProgress(); /// prendre le rayon choisi dans la seekbar
+        Intent i = new Intent("com.example.jeren.parking.TRANSITION"); /// creation de l'intent pour aller à l'activité TransitionActivity
+        i.putExtra("destination",todestination); ///information qui va être emmène avec l'intent
         i.putExtra("date",todate);
         i.putExtra("depart_time",depart_time);
         i.putExtra("rayon",rayon);
-        if (radioJemenfou.isChecked())
+        if (radioJemenfou.isChecked()) /// si payant ou gratuit choisi
         {
             System.out.println("all true");
             i.putExtra("payant",true);
@@ -182,7 +182,7 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(Intent.ACTION_MAIN);
+        Intent intent = new Intent(Intent.ACTION_MAIN); ///fermer l'application si boutton de retourner tappé.
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
@@ -202,7 +202,7 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
         if (!(view instanceof EditText)) {
             view.setOnTouchListener(new View.OnTouchListener() {
                 public boolean onTouch(View v, MotionEvent event) {
-                    hideSoftKeyboard(Welcome.this);
+                    hideSoftKeyboard(Welcome.this); ///cacher le clavier si on tappe dehors le clavier
                     return false;
                 }
             });
@@ -251,7 +251,7 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
     };
 
 
-    public void Fseekbar(){
+    public void Fseekbar(){ ///choix du rayon
         seek_bar=(SeekBar)findViewById(R.id.seekBar);
         seek_bar.setMax(2000);
         mRayonTextview=(TextView)findViewById(R.id.rayonval);
@@ -281,7 +281,7 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
 
     }
     public void checkini() {
-        check = (CheckBox) findViewById(R.id.checkBox);
+        check = (CheckBox) findViewById(R.id.checkBox); /// partir maintenant
         check.setChecked(false);
 //        ((Spinner) year).getSelectedView().setEnabled(false);
 //        year.setEnabled(false);
@@ -295,7 +295,7 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
 //        minute.setEnabled(false);
         check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                                              @Override
-                                             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) { ///bloquer la choix de date si on veut partir maintenant
                                                  if (buttonView.isChecked()) {
                                                      ((Spinner) year).getSelectedView().setEnabled(false);
                                                      year.setEnabled(false);

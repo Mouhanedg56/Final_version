@@ -105,6 +105,7 @@ public  class Map extends Fragment implements OnMapReadyCallback {
     HashMap MarkerNom = new HashMap();
     HashMap MarkerCap = new HashMap();
     HashMap MarkerGestionnaire = new HashMap();
+    HashMap MarkerIndex = new HashMap();
     RelativeLayout relativeLayout;
     TextView adressepopup;
     TextView nompopup;
@@ -204,6 +205,7 @@ public  class Map extends Fragment implements OnMapReadyCallback {
                     MarkerCap.put(marker, Parking.getCapaciteIndex(list_parking.get(i)));
                     MarkerNom.put(marker, Parking.getNomIndex(list_parking.get(i)));
                     MarkerCoord.put(marker, Parking.getCoordIndex(list_parking.get(i)));
+                    MarkerIndex.put(marker, list_parking.get(i));
                     MarkerGestionnaire.put(marker, Parking.getGestionnaireIndex(list_parking.get(i)));
                 } else {
                     MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(coor_park[1], coor_park[0])).title(Parking.getNomIndex(list_parking.get(i))).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
@@ -211,6 +213,7 @@ public  class Map extends Fragment implements OnMapReadyCallback {
                     MarkerCap.put(marker, Parking.getCapaciteIndex(list_parking.get(i)));
                     MarkerNom.put(marker, Parking.getNomIndex(list_parking.get(i)));
                     MarkerCoord.put(marker, Parking.getCoordIndex(list_parking.get(i)));
+                    MarkerIndex.put(marker, list_parking.get(i));
                     MarkerGestionnaire.put(marker, Parking.getGestionnaireIndex(list_parking.get(i)));
                 }
             }
@@ -235,7 +238,18 @@ public  class Map extends Fragment implements OnMapReadyCallback {
                 if (MarkerNom.containsKey(marker)) {
                     nompopup.setText((String) MarkerNom.get(marker));
                     gestionnairepopup.setText((String) MarkerGestionnaire.get(marker));
-                    capacitepopup.setText((String) MarkerCap.get(marker));
+                    if (parkingsAvecTR.contains(MarkerIndex.get(marker))){
+                        System.out.println(etat_parkingsAvecTR.get(parkingsAvecTR.indexOf(MarkerIndex.get(marker))));
+                        if (etat_parkingsAvecTR.get(parkingsAvecTR.indexOf(MarkerIndex.get(marker))).equals("DONNEES INDISPONIBLES")){
+                            capacitepopup.setText("Données Indisponibles");
+
+                        }
+                        else {
+                            capacitepopup.setText(etat_parkingsAvecTR.get(parkingsAvecTR.indexOf(MarkerIndex.get(marker))));
+                        }
+                    }
+                    else{capacitepopup.setText("Données Indisponibles");}
+
                     relativeLayout.setVisibility(View.INVISIBLE);
                     selectedMarker = marker;
                     String filterAddress = "";

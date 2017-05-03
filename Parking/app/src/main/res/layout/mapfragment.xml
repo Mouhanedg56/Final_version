@@ -2,7 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools = "http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="fill_parent"
+    android:paddingBottom="23dp"
     tools:context=".Map"
     android:layout_weight="1"
     >
@@ -15,12 +16,11 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="200dp"
         android:layout_gravity="bottom"
         android:visibility="invisible"
         android:id = "@+id/popupwindow"
         android:background= "@drawable/bg_focused"
-        android:layout_marginBottom="50dp"
         >
 
         <TextView
@@ -102,6 +102,7 @@
             android:paddingLeft="20dp"
             android:paddingTop="22dp"
             android:id = "@+id/capacitepopup"
+            android:layout_centerHorizontal="true"
             android:text = "500 voitures"
             />
 
@@ -109,11 +110,10 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src = "@drawable/arrow_right"
-            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
+            android:layout_alignBottom="@id/carpopup"
             android:id = "@+id/gotomaps"
             android:paddingRight="20dp"
-            android:paddingBottom="20dp"
             />
     </RelativeLayout>
 </FrameLayout>

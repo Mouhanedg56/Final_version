@@ -106,8 +106,8 @@ public class MyList extends Fragment {
         SimpleAdapter adapter = null;
         try {
             adapter = new SimpleAdapter(getActivity(), getData(), R.layout.model_list,
-                    new String[]{"name", "capa", "type", "proba", "frais"},
-                    new int[]{R.id.name, R.id.capacity, R.id.typeTxt, R.id.proba, R.id.fraisTxt});
+                    new String[]{"name", "capa", "distance", "proba", "frais","imcapa","imdis","imfrais"},
+                    new int[]{R.id.name, R.id.capacity, R.id.disTxt, R.id.proba, R.id.fraisTxt,R.id.capa,R.id.distance,R.id.frais});
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -151,18 +151,23 @@ public class MyList extends Fragment {
             if (parkingsAvecTR.contains(list_parking.get(i)) && etat_parkingsAvecTR.get(parkingsAvecTR.indexOf(list_parking.get(i))).equals("DONNEES INDISPONIBLES")) {
 
                 map.put("capa", Parking.getCapaciteIndex(list_parking.get(i)));
+                map.put("imcapa", R.drawable.car);
             }
             else if (parkingsAvecTR.contains(list_parking.get(i))) {
                 System.out.println(etat_parkingsAvecTR.get(parkingsAvecTR.indexOf(list_parking.get(i))));
                 System.out.println(Parking.getCapaciteIndex(list_parking.get(i)));
                 map.put("capa", etat_parkingsAvecTR.get(parkingsAvecTR.indexOf(list_parking.get(i))).split(" ")[0] + "/" + Parking.getCapaciteIndex(list_parking.get(i)));
+                map.put("imcapa", R.drawable.car);
             }
             else {
                 map.put("capa", Parking.getCapaciteIndex(list_parking.get(i)));
+                map.put("imcapa", R.drawable.car);
             }
-            map.put("type", Parking.getGestionnaireIndex(list_parking.get(i)));
+            map.put("distance", Parking.distance(coord,list_parking.get(i)));
+            map.put("imdis", R.drawable.info);
             map.put("proba", "70");
             map.put("frais", Parking.getReglementationIndex(list_parking.get(i)));
+            map.put("imfrais", R.drawable.euro);
 
             list.add(map);
         }

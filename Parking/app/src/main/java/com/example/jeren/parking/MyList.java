@@ -125,36 +125,36 @@ public class MyList extends Fragment {
 
 
 
-    //trier par distance  array: liste d'indice de parking
-    public static int[] trier_distance(int[] array,double[] coord){
-        double[] distance={};
-        double temp1;
-        int temp2;
-        for (int i =0;i<array.length;i++) {
-            distance[i] = Parking.distance(coord, array[i]);
-        }
-        for(int i=0;i<distance.length;i++) {
-
-            for (int j = i + 1; j < distance.length; j++) {
-
-                if (distance[i] > distance[j]) {
-
-                    temp1 = distance[i];
-                    temp2 = array[i];
-
-                    distance[i] = distance[j];
-                    array[i] = array[j];
-
-                    distance[j] = temp1;
-                    array[j] = temp2;
-
-                }
-            }
-        }
-        return array;
-    }
-
-    //trier par proba  array: liste d'indice de parking
+//    //trier par distance  array: liste d'indice de parking
+//    public static int[] trier_distance(int[] array,double[] coord){
+//        double[] distance={};
+//        double temp1;
+//        int temp2;
+//        for (int i =0;i<array.length;i++) {
+//            distance[i] = Parking.distance(coord, array[i]);
+//        }
+//        for(int i=0;i<distance.length;i++) {
+//
+//            for (int j = i + 1; j < distance.length; j++) {
+//
+//                if (distance[i] > distance[j]) {
+//
+//                    temp1 = distance[i];
+//                    temp2 = array[i];
+//
+//                    distance[i] = distance[j];
+//                    array[i] = array[j];
+//
+//                    distance[j] = temp1;
+//                    array[j] = temp2;
+//
+//                }
+//            }
+//        }
+//        return array;
+//    }
+//
+//    //trier par proba  array: liste d'indice de parking
 
 
 
@@ -214,7 +214,7 @@ public class MyList extends Fragment {
             map.put("imdis", R.drawable.info);
             map.put("proba", "70");
             map.put("frais", Parking.getReglementationIndex(list_parking.get(i)));
-            map.put("imfrais", R.drawable.euro);
+            map.put("imfrais", R.drawable.euro1);
 
             list.add(map);
         }

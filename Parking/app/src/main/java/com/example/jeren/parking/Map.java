@@ -239,10 +239,9 @@ public  class Map extends Fragment implements OnMapReadyCallback {
                     nompopup.setText((String) MarkerNom.get(marker));
                     gestionnairepopup.setText((String) MarkerGestionnaire.get(marker));
                     if (parkingsAvecTR.contains(MarkerIndex.get(marker))){
-                        System.out.println(etat_parkingsAvecTR.get(parkingsAvecTR.indexOf(MarkerIndex.get(marker))));
-                        if (etat_parkingsAvecTR.get(parkingsAvecTR.indexOf(MarkerIndex.get(marker))).equals("DONNEES INDISPONIBLES")){
+                        if (etat_parkingsAvecTR.get(parkingsAvecTR.indexOf(MarkerIndex.get(marker))).equals("DONNEES INDISPONIBLES"))
+                        {
                             capacitepopup.setText("Données Indisponibles");
-
                         }
                         else {
                             capacitepopup.setText(etat_parkingsAvecTR.get(parkingsAvecTR.indexOf(MarkerIndex.get(marker))));

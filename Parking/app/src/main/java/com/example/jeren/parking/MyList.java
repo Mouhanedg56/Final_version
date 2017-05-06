@@ -175,42 +175,29 @@ public class MyList extends Fragment {
         Parking.init(getActivity().getApplicationContext());
         ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         Map<String, Object> map = new HashMap<String, Object>();
-        int[] L = {2, 1, 3, 4};
-        /*
-        map.put("name", Parking.getNomIndex(L[0]));
-        map.put("capa", Parking.getCapaciteIndex(L[0]));
-        map.put("type", Parking.getProprietaireIndex(L[0]));
-        map.put("proba", "70");
-        map.put("frais", Parking.getReglementationIndex(L[0]));
-        list.add(map);
-        */
-
-
 
 
         destinationcoord = getLocationFromAddress(getActivity(), destination);
         double[] coord = new double[]{destinationcoord.longitude, destinationcoord.latitude};
 
 
-        for (int i =0;i<list_parking.size();i++) {
+        for (int i = 0; i < list_parking.size(); i++) {
             map = new HashMap<String, Object>();
             map.put("name", Parking.getNomIndex(list_parking.get(i)));
             if (parkingsAvecTR.contains(list_parking.get(i)) && etat_parkingsAvecTR.get(parkingsAvecTR.indexOf(list_parking.get(i))).equals("DONNEES INDISPONIBLES")) {
 
                 map.put("capa", Parking.getCapaciteIndex(list_parking.get(i)));
                 map.put("imcapa", R.drawable.car);
-            }
-            else if (parkingsAvecTR.contains(list_parking.get(i))) {
+            } else if (parkingsAvecTR.contains(list_parking.get(i))) {
                 System.out.println(etat_parkingsAvecTR.get(parkingsAvecTR.indexOf(list_parking.get(i))));
                 System.out.println(Parking.getCapaciteIndex(list_parking.get(i)));
                 map.put("capa", etat_parkingsAvecTR.get(parkingsAvecTR.indexOf(list_parking.get(i))).split(" ")[0] + "/" + Parking.getCapaciteIndex(list_parking.get(i)));
                 map.put("imcapa", R.drawable.car);
-            }
-            else {
+            } else {
                 map.put("capa", Parking.getCapaciteIndex(list_parking.get(i)));
                 map.put("imcapa", R.drawable.car);
             }
-            map.put("distance", Parking.distance(coord,list_parking.get(i)));
+            map.put("distance", (int)Parking.distance(coord, list_parking.get(i)));
             map.put("imdis", R.drawable.info);
             map.put("proba", "70");
             map.put("frais", Parking.getReglementationIndex(list_parking.get(i)));
@@ -220,34 +207,10 @@ public class MyList extends Fragment {
         }
 
         return list;
-
-
-       /*if (L.length<1) {
-           return list;
-       }
-       else {
-            map = new HashMap<String, Object>();
-            map.put("name", Parking.getNomIndex(L[0]));
-            map.put("capa", Parking.getCapaciteIndex(L[0]));
-            map.put("type", Parking.getProprietaireIndex(L[0]));
-            map.put("proba", "70");
-            map.put("frais", Parking.getReglementationIndex(L[0]));
-            list.add(map);
-            if (L.length>=2) {
-                for (int j = 1; j < L.length; j++) {
-                    map = new HashMap<String, Object>();
-                    map.put("name", Parking.getNomIndex(L[j]));
-                    map.put("capa", Parking.getCapaciteIndex(L[j]));
-                    map.put("type", Parking.getProprietaireIndex(L[j]));
-                    map.put("proba", "70");
-                    map.put("frais", Parking.getReglementationIndex(L[j]));
-                    list.add(map);
-                }
-            }
-*/
-
-
     }
+
+
+
 
 
     /**

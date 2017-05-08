@@ -19,6 +19,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
 
 import com.google.android.gms.appindexing.Action;
@@ -69,6 +71,9 @@ public class MyList extends Fragment {
     String reponseGrandLyon;
     ArrayList<Integer> parkingsAvecTR;
     ArrayList<String> etat_parkingsAvecTR;
+    private RadioButton radioDis;
+    private RadioButton radioProba;
+    private RadioGroup radioGroup;
     int rayon;
     boolean payant;
     boolean gratuit;
@@ -86,6 +91,26 @@ public class MyList extends Fragment {
 
         View view = inflater.inflate(R.layout.list_layout, container, false);
         lv = (ListView) view.findViewById(R.id.listview);
+        radioDis = (RadioButton) view.findViewById(R.id.radio_distance);
+        radioProba = (RadioButton) view.findViewById(R.id.radio_proba);
+        radioGroup = (RadioGroup) view.findViewById(R.id.radio_group1);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // TODO Auto-generated method stub
+                if(R.id.radio_distance == checkedId){
+                    list_parking=trier_distance(list_parking,destination);
+                }
+                else if(R.id.radio_proba == checkedId){
+                    list_parking=trier_proba(list_parking,destination);
+                }
+
+            }
+        });
+
+
+
         ///System.out.println(getArguments().getString("data"));
 
         Intent intent = getActivity().getIntent();
@@ -125,36 +150,65 @@ public class MyList extends Fragment {
 
 
 
-//    //trier par distance  array: liste d'indice de parking
-//    public static int[] trier_distance(int[] array,double[] coord){
-//        double[] distance={};
-//        double temp1;
-//        int temp2;
-//        for (int i =0;i<array.length;i++) {
-//            distance[i] = Parking.distance(coord, array[i]);
-//        }
-//        for(int i=0;i<distance.length;i++) {
-//
-//            for (int j = i + 1; j < distance.length; j++) {
-//
-//                if (distance[i] > distance[j]) {
-//
-//                    temp1 = distance[i];
-//                    temp2 = array[i];
-//
-//                    distance[i] = distance[j];
-//                    array[i] = array[j];
-//
-//                    distance[j] = temp1;
-//                    array[j] = temp2;
-//
-//                }
-//            }
-//        }
-//        return array;
-//    }
-//
-//    //trier par proba  array: liste d'indice de parking
+    //trier par distance  array: liste d'indice de parking
+    public static ArrayList<Integer>[] trier_distance(ArrayList<Integer>[] array,double[] coord){
+        double[] distance={};
+        Integer[] array1 = (Integer[]) array.toArray(new Integer[array.size()]);
+        double temp1;
+        int temp2;
+        for (int i =0;i<array.length;i++) {
+            distance[i] = Parking.distance(coord, array1[i]);
+        }
+        for(int i=0;i<distance.length;i++) {
+
+            for (int j =0; j < distance.length-i-1; j++) {
+
+                if (distance[j] > distance[j+1]) {
+
+                    temp1 = distance[j];
+                    temp2 = array[j];
+
+                    distance[j] = distance[j+1];
+                    array[j] = array[j+1];
+
+                    distance[j+1] = temp1;
+                    array[j+1] = temp2;
+
+                }
+            }
+        }
+        return array;
+    }
+
+//    //trier par proba  array: liste d'indice de parking  IL FAUT CHANGER Parking.distance A UNE METHODE POUR LA PROBA
+public static ArrayList<Integer>[] trier_proba(ArrayList<Integer>[] array,double[] coord){
+    double[] proba={};
+    Integer[] array1 = (Integer[]) array.toArray(new Integer[array.size()]);
+    double temp1;
+    int temp2;
+    for (int i =0;i<array.length;i++) {
+        proba[i] = Parking.distance(coord, array1[i]);
+    }
+    for(int i=0;i<proba.length;i++) {
+
+        for (int j =0; j < proba.length-i-1; j++) {
+
+            if (proba[j] > proba[j+1]) {
+
+                temp1 = proba[j];
+                temp2 = array[j];
+
+                proba[j] = proba[j+1];
+                array[j] = array[j+1];
+
+                proba[j+1] = temp1;
+                array[j+1] = temp2;
+
+            }
+        }
+    }
+    return array;
+}
 
 
 

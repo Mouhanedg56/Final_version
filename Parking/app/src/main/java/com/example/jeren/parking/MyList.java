@@ -77,6 +77,10 @@ public class MyList extends Fragment {
     int rayon;
     boolean payant;
     boolean gratuit;
+    double coord[];
+    SimpleAdapter adapter;
+    ArrayList<Map<String, Object>> listData;
+
 
 
 
@@ -95,20 +99,6 @@ public class MyList extends Fragment {
         radioProba = (RadioButton) view.findViewById(R.id.radio_proba);
         radioGroup = (RadioGroup) view.findViewById(R.id.radio_group1);
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                // TODO Auto-generated method stub
-                if(R.id.radio_distance == checkedId){
-                    list_parking=trier_distance(list_parking,destination);
-                }
-                else if(R.id.radio_proba == checkedId){
-                    list_parking=trier_proba(list_parking,destination);
-                }
-
-            }
-        });
-
 
 
         ///System.out.println(getArguments().getString("data"));
@@ -123,14 +113,17 @@ public class MyList extends Fragment {
         payant = intent.getBooleanExtra("payant",false);
         gratuit = intent.getBooleanExtra("gratuit",false);
         list_parking = intent.getIntegerArrayListExtra("list_parking");
+        destinationcoord = getLocationFromAddress(getActivity(), destination);
+        coord = new double[] {destinationcoord.longitude, destinationcoord.latitude};
 
-
-        System.out.println("From List: etat");
-        System.out.println(etat_parkingsAvecTR);
-
-        SimpleAdapter adapter = null;
         try {
-            adapter = new SimpleAdapter(getActivity(), getData(), R.layout.model_list,
+            listData = getData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+
+            adapter = new SimpleAdapter(getActivity(), listData, R.layout.model_list,
                     new String[]{"name", "capa", "distance", "proba", "frais","imcapa","imdis","imfrais"},
                     new int[]{R.id.name, R.id.capacity, R.id.disTxt, R.id.proba, R.id.fraisTxt,R.id.capa,R.id.distance,R.id.frais});
         } catch (Exception e) {
@@ -140,7 +133,44 @@ public class MyList extends Fragment {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(getActivity()).addApi(AppIndex.API).build();
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                // TODO Auto-generated method stub
+                if(R.id.radio_distance == checkedId){
+                    System.out.println("List parking avant:");
+                    System.out.println(list_parking);
+                    trier_distance(list_parking,coord);
+                    System.out.println("List parking après:");
+                    System.out.println(list_parking);
+                    try {
+                        listData = getData();
+                        try {
+
+                            adapter = new SimpleAdapter(getActivity(), listData, R.layout.model_list,
+                                    new String[]{"name", "capa", "distance", "proba", "frais","imcapa","imdis","imfrais"},
+                                    new int[]{R.id.name, R.id.capacity, R.id.disTxt, R.id.proba, R.id.fraisTxt,R.id.capa,R.id.distance,R.id.frais});
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        lv.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                else if(R.id.radio_proba == checkedId){
+
+                }
+
+            }
+        });
+
         return view;
+
+
+
 
 
     }
@@ -151,42 +181,50 @@ public class MyList extends Fragment {
 
 
     //trier par distance  array: liste d'indice de parking
-    public static ArrayList<Integer>[] trier_distance(ArrayList<Integer>[] array,double[] coord){
-        double[] distance={};
-        Integer[] array1 = (Integer[]) array.toArray(new Integer[array.size()]);
-        double temp1;
-        int temp2;
-        for (int i =0;i<array.length;i++) {
-            distance[i] = Parking.distance(coord, array1[i]);
+    public void trier_distance(ArrayList<Integer> array,double[] coord){
+        ArrayList<Double> distance= new ArrayList<>();
+        ArrayList<Double> temp = new ArrayList<>();
+        ArrayList<Integer> indiceTemp = new ArrayList<>();
+        ArrayList<Integer> temp2 = new ArrayList<>();
+        for (int i =0;i<array.size();i++) {
+            distance.add(Parking.distance(coord, array.get(i)));
         }
-        for(int i=0;i<distance.length;i++) {
 
-            for (int j =0; j < distance.length-i-1; j++) {
+        int i = 0;
 
-                if (distance[j] > distance[j+1]) {
-
-                    temp1 = distance[j];
-                    temp2 = array[j];
-
-                    distance[j] = distance[j+1];
-                    array[j] = array[j+1];
-
-                    distance[j+1] = temp1;
-                    array[j+1] = temp2;
-
+        double major = 0;
+        int majorInd = 0;
+        while( i<distance.size()) {
+            for ( int pointeur = 0; pointeur < distance.size();pointeur++) {
+                if ( !indiceTemp.contains(pointeur) & major < distance.get(pointeur) )
+                {
+                    major = distance.get(pointeur);
+                    majorInd = pointeur;
                 }
             }
+            indiceTemp.add(majorInd);
+            i++;
+            major = 0;
         }
-        return array;
+
+        int aux = 0;
+        for (int k = indiceTemp.size() - 1;k>=0;k--){
+            temp2.add(array.get(indiceTemp.get(k)));
+        }
+        System.out.println("temp2");
+        System.out.println(temp2);
+        list_parking = temp2;
     }
 
 //    //trier par proba  array: liste d'indice de parking  IL FAUT CHANGER Parking.distance A UNE METHODE POUR LA PROBA
-public static ArrayList<Integer>[] trier_proba(ArrayList<Integer>[] array,double[] coord){
+
+/*
+    public static ArrayList<Integer>[] trier_proba(ArrayList<Integer> array,double[] coord){
     double[] proba={};
     Integer[] array1 = (Integer[]) array.toArray(new Integer[array.size()]);
     double temp1;
     int temp2;
-    for (int i =0;i<array.length;i++) {
+    for (int i =0;i<array.size();i++) {
         proba[i] = Parking.distance(coord, array1[i]);
     }
     for(int i=0;i<proba.length;i++) {
@@ -209,6 +247,7 @@ public static ArrayList<Integer>[] trier_proba(ArrayList<Integer>[] array,double
     }
     return array;
 }
+*/
 
 
 
@@ -228,29 +267,19 @@ public static ArrayList<Integer>[] trier_proba(ArrayList<Integer>[] array,double
 
         Parking.init(getActivity().getApplicationContext());
         ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-        Map<String, Object> map = new HashMap<String, Object>();
-        int[] L = {2, 1, 3, 4};
-        /*
-        map.put("name", Parking.getNomIndex(L[0]));
-        map.put("capa", Parking.getCapaciteIndex(L[0]));
-        map.put("type", Parking.getProprietaireIndex(L[0]));
-        map.put("proba", "70");
-        map.put("frais", Parking.getReglementationIndex(L[0]));
-        list.add(map);
-        */
+        Map<String, Object> map;
 
 
 
 
-        destinationcoord = getLocationFromAddress(getActivity(), destination);
-        double[] coord = new double[]{destinationcoord.longitude, destinationcoord.latitude};
+
+
 
 
         for (int i =0;i<list_parking.size();i++) {
             map = new HashMap<String, Object>();
             map.put("name", Parking.getNomIndex(list_parking.get(i)));
             if (parkingsAvecTR.contains(list_parking.get(i)) && etat_parkingsAvecTR.get(parkingsAvecTR.indexOf(list_parking.get(i))).equals("DONNEES INDISPONIBLES")) {
-
                 map.put("capa", Parking.getCapaciteIndex(list_parking.get(i)));
                 map.put("imcapa", R.drawable.car);
             }
@@ -367,54 +396,4 @@ public static ArrayList<Integer>[] trier_proba(ArrayList<Integer>[] array,double
     }
 
 
-    public class JSONtask extends AsyncTask<URL, String, String> {
-
-        @Override
-        protected String doInBackground(URL... params) {
-            String link = "https://download.data.grandlyon.com/ws/rdata/pvo_patrimoine_voirie.pvoparkingtr/all.json";
-            try {
-                URL url = new URL(link);
-                URLConnection uc = url.openConnection();
-                String basicAuth = "Basic ZmVsaXBlLmxvdXJlbmNvLWFuZ2VsaW0tdmllaXJhQGVjbDE2LmVjLWx5b24uZnI6UEVwbHVzY2hhdWRAODI=";
-                uc.setRequestProperty ("Authorization", basicAuth);
-                InputStream in = uc.getInputStream();
-                StringBuffer buffer = new StringBuffer();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    buffer.append(line + "\n");
-                }
-                return buffer.toString();
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            reponseGrandLyon = result;
-        }
-    }
-
-    private static List<String> parseJSon(String data) throws JSONException, UnsupportedEncodingException {
-        if (data == null)
-            return new ArrayList<String>() ;
-
-        List<String> parkings = new ArrayList<String>();
-        JSONObject jsonData = new JSONObject(data);
-        JSONArray jsonParkings = jsonData.getJSONArray("values");
-        for (int i = 0; i < jsonParkings.length(); i++) {
-            JSONObject jsonPark = jsonParkings.getJSONObject(i);
-            String encoded = jsonPark.getString("nom");
-            String decoded = new String(encoded.getBytes("ISO-8859-1"));
-            parkings.add("(" + jsonPark.getString("pkgid") + "," + decoded + "," + jsonPark.getString("etat") + "," + jsonPark.getString("last_update") + ")");
-        }
-        return parkings;
-    }
 }

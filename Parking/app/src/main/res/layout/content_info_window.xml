@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.jeren.parking.InfoWindowActivity"
+    tools:showIn="@layout/activity_info_window"
+    android:layout_gravity="top"
+    android:visibility="visible"
+    android:id = "@+id/InfoWindow"
+    android:background= "@drawable/bg_focused"
+>
+        <TextView
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:id = "@+id/nomInfo"
+            android:text = "Nom du parking"
+            />
+        <TextView
+            android:textStyle="italic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_below="@id/nomInfo"
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:id = "@+id/adresseInfo"
+            android:text = ""
+            />
+
+        <TextView
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_below="@id/adresseInfo"
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:id = "@+id/gestionnaireTxt"
+            android:text = "Gestionnaire: "
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_below="@id/nomInfo"
+            android:layout_alignBaseline="@id/gestionnaireTxt"
+            android:layout_toRightOf="@id/gestionnaireTxt"
+            android:paddingTop="10dp"
+            android:id = "@+id/gestionnaireInfo"
+            android:text = "Données indisponibles"
+            />
+
+        <TextView
+
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_below="@id/gestionnaireInfo"
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:id = "@+id/reglementationTxt"
+            android:text = "Reglementation: "
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_below="@id/gestionnaireInfo"
+            android:layout_alignBaseline="@id/reglementationTxt"
+            android:layout_toRightOf="@id/reglementationTxt"
+            android:paddingTop="10dp"
+            android:id = "@+id/reglementationInfo"
+            android:text = "Données indisponibles"
+            />
+        <TextView
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_below="@id/reglementationInfo"
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:id = "@+id/fermetureTxt"
+            android:text = "Fermeture: "
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_below="@id/reglementationInfo"
+            android:layout_toRightOf="@id/fermetureTxt"
+            android:layout_alignBaseline="@id/fermetureTxt"
+
+            android:paddingTop="10dp"
+            android:id = "@+id/fermetureInfo"
+            android:text = "Données indisponibles"
+            />
+        <TextView
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_below="@id/fermetureInfo"
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:id = "@+id/previsionTxt"
+            android:text = "Prevision de disponibilité: "
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_below="@id/fermetureInfo"
+            android:layout_toRightOf="@id/previsionTxt"
+            android:layout_alignBaseline="@id/previsionTxt"
+            android:paddingTop="10dp"
+            android:id = "@+id/previsionInfo"
+            android:text = "Données indisponibles"
+            />
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src = "@drawable/car"
+            android:layout_below="@id/previsionInfo"
+            android:paddingTop="0dp"
+            android:paddingLeft="20dp"
+            android:id = "@+id/carImg"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_below="@id/previsionInfo"
+            android:layout_toRightOf="@id/carImg"
+            android:layout_alignBottom="@id/carImg"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:id = "@+id/placeslibresInfo"
+            android:text = "Donnees indisponibles"
+            />
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src = "@drawable/arrow_right"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom = "true"
+            android:id = "@+id/gotomapsInfo"
+            android:paddingBottom="20dp"
+            android:paddingRight="20dp"
+            />
+
+    </RelativeLayout>
+
+
+

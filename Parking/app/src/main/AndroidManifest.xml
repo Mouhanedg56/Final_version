@@ -74,14 +74,16 @@
             android:name=".TransitionActivity"
             android:label="@string/title_activity_transition"
             android:theme="@style/AppTheme.NoActionBar">
-
             <intent-filter>
                 <action android:name="com.example.jeren.parking.TRANSITION" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
         </activity>
+        <activity
+            android:name=".InfoWindowActivity"
+            android:label="@string/title_activity_info_window"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

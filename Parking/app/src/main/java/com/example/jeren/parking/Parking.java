@@ -83,6 +83,8 @@ public class Parking {
         return idParkingList.get(i);
     }
 
+    public static String getFermetureIndex(int i) {return fermetureList.get(i);}
+
     public static  String getCommuneIndex(int i)
     {
         return communeList.get(i);

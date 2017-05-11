@@ -18,6 +18,7 @@ import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -167,6 +168,17 @@ public class MyList extends Fragment {
             }
         });
 
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+                Intent intent = new Intent(view.getContext(), InfoWindowActivity.class);
+                intent.putExtra("indexParking", list_parking.get(position));
+                intent.putExtra("distance",Parking.distance(coord, list_parking.get(position)));
+                intent.putIntegerArrayListExtra("parkingsAvecTR",parkingsAvecTR);
+                intent.putStringArrayListExtra("etat_parkingsAvecTR",etat_parkingsAvecTR);
+                getActivity().startActivity(intent);
+            }
+        });
         return view;
 
 
@@ -215,8 +227,6 @@ public class MyList extends Fragment {
         System.out.println(temp2);
         list_parking = temp2;
     }
-
-//    //trier par proba  array: liste d'indice de parking  IL FAUT CHANGER Parking.distance A UNE METHODE POUR LA PROBA
 
 /*
     public static ArrayList<Integer>[] trier_proba(ArrayList<Integer> array,double[] coord){
@@ -379,7 +389,7 @@ public class MyList extends Fragment {
         try {
             // May throw an IOException
             address = coder.getFromLocationName(strAddress, 5);
-            if (address == null) {
+            if (address == null || address.size() == 0) {
                 return null;
             }
             Address location = address.get(0);

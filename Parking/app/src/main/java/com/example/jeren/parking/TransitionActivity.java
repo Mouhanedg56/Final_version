@@ -157,6 +157,11 @@ public class TransitionActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             destinationcoord = getLocationFromAddress(getApplicationContext(), destination);
+            if (destinationcoord == null){
+                Intent i = new Intent("com.example.jeren.parking.WELCOME");
+                startActivity(i);
+                finish();}
+            else{
             double[] coord = new double[]{destinationcoord.longitude, destinationcoord.latitude};
             list_parking = Parking.parkingsProches(coord,rayon);
             int k = 0;
@@ -211,7 +216,7 @@ public class TransitionActivity extends AppCompatActivity {
             System.out.println(etat_parkingsAvecTR);
             reponseGrandLyon = result;
             System.out.println("Count from JSONtask");
-            System.out.println(countDownLatch.getCount());
+            System.out.println(countDownLatch.getCount());}
         }
     }
 
@@ -241,7 +246,12 @@ public class TransitionActivity extends AppCompatActivity {
         try {
             // May throw an IOException
             address = coder.getFromLocationName(strAddress, 5);
-            if (address == null) {
+            if (address.size() == 0 ){
+                System.out.println("Address size = 0");
+                return null;
+
+            }
+            if (address == null){
                 return null;
             }
             Address location = address.get(0);

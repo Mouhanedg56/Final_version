@@ -194,6 +194,7 @@ public class TabActivity extends AppCompatActivity {
     }
 
 
+
     public LatLng getLocationFromAddress(Context context, String strAddress) {
 
         Geocoder coder = new Geocoder(context);

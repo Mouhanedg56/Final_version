@@ -131,6 +131,7 @@ public class MyList extends Fragment {
             e.printStackTrace();
         }
         lv.setAdapter(adapter);
+        Utility.setListViewHeightBasedOnChildren(lv);  //pour afficher la liste
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(getActivity()).addApi(AppIndex.API).build();

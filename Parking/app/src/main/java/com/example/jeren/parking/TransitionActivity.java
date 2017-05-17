@@ -38,6 +38,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 
 public class TransitionActivity extends AppCompatActivity {
@@ -84,7 +85,9 @@ public class TransitionActivity extends AppCompatActivity {
 
         ///jours feries en France
         ArrayList<Date> jourFeries = new ArrayList<>();
-        DateFormat format = new SimpleDateFormat("dd/MM/YYYY");
+
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+
         try {
             jourFeries.add(format.parse("01/01/2017"));
             jourFeries.add(format.parse("01/01/2018"));

@@ -4,9 +4,7 @@ package com.example.jeren.parking;
  * Created by jeren on 2017/2/5.
  */
 
-import android.*;
 import android.Manifest;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -16,12 +14,8 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.InflateException;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -30,57 +24,30 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 
-import java.lang.reflect.Array;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Locale;
-import java.util.zip.Inflater;
 
-import Module.DirectionFinder;
-import Module.DirectionFinderListener;
-import Module.IconGenerator;
 import Module.Parking;
-import Module.Route;
 
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-
-import static android.content.ContentValues.TAG;
 
 public  class Map extends Fragment implements OnMapReadyCallback {
 
@@ -357,14 +324,6 @@ public  class Map extends Fragment implements OnMapReadyCallback {
     }
 
 
-    private void addIcon(GoogleMap map, IconGenerator iconFactory, CharSequence text, LatLng position) {
-        MarkerOptions markerOptions = new MarkerOptions().
-                icon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(text))).
-                position(position).
-                anchor(iconFactory.getAnchorU(), iconFactory.getAnchorV());
-
-        map.addMarker(markerOptions);
-    }
 
     public class FillPopUpWindow extends AsyncTask<Marker,Void,String>{
         Marker marker;

@@ -119,6 +119,11 @@ public class MyList extends Fragment {
 
         try {
             listData = getData();
+            System.out.println("listData size:");
+            System.out.println(listData.size());
+            System.out.println("listData[0] size:");
+            System.out.println(listData.get(0));
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -279,13 +284,6 @@ public class MyList extends Fragment {
         Parking.init(getActivity().getApplicationContext());
         ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         Map<String, Object> map;
-
-
-
-
-
-
-
 
         for (int i =0;i<list_parking.size();i++) {
             map = new HashMap<String, Object>();

@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -115,6 +116,7 @@ public  class Map extends Fragment implements OnMapReadyCallback {
     Marker selectedMarker;
     String selectedMarkerAdress;
     Marker destinationMarker;
+    ProgressBar progressBar;
 
     public Map() {
 
@@ -192,6 +194,7 @@ public  class Map extends Fragment implements OnMapReadyCallback {
         capacitepopup = (TextView) getView().findViewById(R.id.capacitepopup);
         adressepopup = (TextView) getView().findViewById(R.id.adressepopup);
         LaunchGoogle = (ImageView) getView().findViewById(R.id.gotomaps);
+        progressBar = (ProgressBar) getView().findViewById(R.id.progressBarPopUp);
         destinationMarker = mMap.addMarker(new MarkerOptions().position(destinationcoord).title(destination));
 
 
@@ -358,7 +361,8 @@ public  class Map extends Fragment implements OnMapReadyCallback {
         public FillPopUpWindow(Marker Argmarker){
             super();
             marker = Argmarker;
-
+            relativeLayout.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
         }
         protected String doInBackground(Marker... arg) {
 
@@ -389,7 +393,7 @@ public  class Map extends Fragment implements OnMapReadyCallback {
         }
         protected void onPostExecute(String result) {
             adressepopup.setText(result);
-            relativeLayout.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.INVISIBLE);
             return;
         }
     }

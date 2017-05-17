@@ -236,7 +236,7 @@
                         android:layout_alignParentLeft="true"
                         android:lines="1"
 
-                        android:text="80"
+                        android:text=""
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:textColor="#FFA228"
                         android:textSize="30dp" />

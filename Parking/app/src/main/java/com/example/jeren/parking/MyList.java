@@ -24,7 +24,9 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
+import com.google.android.gms.analytics.ExceptionParser;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
@@ -138,6 +140,42 @@ public class MyList extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        /*
+        SimpleAdapter.ViewBinder binder = new SimpleAdapter.ViewBinder() {
+            @Override
+            public boolean setViewValue(View view, Object object, String value) {
+                if (view.equals((TextView) view.findViewById(R.id.proba)))
+                {
+                    String text;
+                    System.out.println(object.getClass());
+                    text = ((String) ((TextView) view).getText()).replace("%","");
+                    System.out.println(text);
+                    int valuetemp = 0;
+                    try { valuetemp = Integer.parseInt(text); }
+                    catch (Exception e)  { valuetemp = -1; }
+
+                        if (valuetemp > 20) {
+                            ((TextView) view).setTextColor(Color.GREEN);
+                            System.out.println("to green");
+                        } else if (valuetemp > 10) {
+                            ((TextView) view).setTextColor(Color.YELLOW);
+                            System.out.println("to yellow");
+                        } else if (valuetemp >= 0) {
+                            ((TextView) view).setTextColor(Color.RED);
+                            System.out.println("to red");
+                        }
+                        else if (valuetemp < 0) { ((TextView) view).setTextColor(Color.GRAY); System.out.println("to grey"); }
+
+
+                 return false;
+                }
+
+            return false;
+            }
+        };
+        adapter.setViewBinder(binder);
+        */
         lv.setAdapter(adapter);
         Utility.setListViewHeightBasedOnChildren(lv);  //pour afficher la liste
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -205,6 +243,8 @@ public class MyList extends Fragment {
                 intent.putExtra("distance",Parking.distance(coord, list_parking.get(position)));
                 intent.putIntegerArrayListExtra("parkingsAvecTR",parkingsAvecTR);
                 intent.putStringArrayListExtra("etat_parkingsAvecTR",etat_parkingsAvecTR);
+                intent.putExtra("weekOuSemaine",weekOuSemaine);
+                intent.putExtra("depart_time",depart_time);
                 getActivity().startActivity(intent);
             }
         });

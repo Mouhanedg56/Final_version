@@ -2,6 +2,7 @@ package com.example.jeren.parking;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -30,8 +31,9 @@ public class InfoWindowActivity extends AppCompatActivity {
     String fermeture;
     String capacite;
     String gestionnaire;
+    String weekOuSemaine;
     int indexParking;
-    int proba;
+    double depart_time;
     double[] coord;
     String address;
     TextView nomView;
@@ -70,7 +72,8 @@ public class InfoWindowActivity extends AppCompatActivity {
         distance = intent.getStringExtra("distance");
         parkingsAvecTR = intent.getIntegerArrayListExtra("parkingsAvecTR");
         etat_parkingsAvecTR = intent.getStringArrayListExtra("etat_parkingsAvecTR");
-        proba = intent.getIntExtra("proba",25);
+        weekOuSemaine = intent.getStringExtra("weekOuSemaine");
+        depart_time = intent.getDoubleExtra("depart_time",0);
         coord = Parking.getCoordIndex(indexParking);
         reglementation = Parking.getReglementationIndex(indexParking);
         fermeture = Parking.getFermetureIndex(indexParking);
@@ -83,8 +86,10 @@ public class InfoWindowActivity extends AppCompatActivity {
         nomView.setText(Parking.getNomIndex(indexParking));
         String gestionnaireCapitalized = Parking.getGestionnaireIndex(indexParking).substring(0, 1).toUpperCase() + Parking.getGestionnaireIndex(indexParking).substring(1);
         gestionnaireView.setText(gestionnaireCapitalized);
+        setProbaText(Parking.getProba(weekOuSemaine,indexParking,depart_time));
         fermetureView.setText(Parking.getFermetureIndex(indexParking));
         reglementationView.setText(Parking.getReglementationIndex(indexParking));
+
 
 
         if (parkingsAvecTR.contains(indexParking)){
@@ -110,6 +115,15 @@ public class InfoWindowActivity extends AppCompatActivity {
                 startActivity(mapIntent);
             }
         });
+    }
+
+    public void setProbaText(int proba){
+        String probaText = String.valueOf(proba)+"%";
+        previsionView.setText(probaText);
+        if (proba>20){previsionView.setTextColor(Color.GREEN);}
+        else if (proba > 10){previsionView.setTextColor(Color.YELLOW);}
+        else if (proba >= 0){previsionView.setTextColor(Color.RED);}
+        else{previsionView.setText(""); } /// en cas de pas avoir des données corcenant le parking
     }
 
     @Override

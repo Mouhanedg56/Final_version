@@ -4,6 +4,7 @@ package com.example.jeren.parking;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -65,7 +66,7 @@ public class MyList extends Fragment {
 
     private String destination;
     private String date;
-    private String depart_time;
+    private double depart_time;
     private LatLng destinationcoord;
     private ArrayList<Integer> list_parking;
     List<String> dataGrandLyon;
@@ -81,6 +82,7 @@ public class MyList extends Fragment {
     double coord[];
     SimpleAdapter adapter;
     ArrayList<Map<String, Object>> listData;
+    String weekOuSemaine;
 
 
 
@@ -107,7 +109,8 @@ public class MyList extends Fragment {
         Intent intent = getActivity().getIntent();
         destination = intent.getStringExtra("destination");
         date = intent.getStringExtra("date");
-        depart_time = intent.getStringExtra("depart_time");
+        depart_time = intent.getDoubleExtra("depart_time",0);
+        weekOuSemaine = intent.getStringExtra("weekOuSemaine");
         rayon = intent.getExtras().getInt("rayon");
         parkingsAvecTR = intent.getIntegerArrayListExtra("parkingsAvecTR");
         etat_parkingsAvecTR = intent.getStringArrayListExtra("etat_parkingsAvecTR");
@@ -168,6 +171,26 @@ public class MyList extends Fragment {
 
                 }
                 else if(R.id.radio_proba == checkedId){
+                    System.out.println("List parking avant:");
+                    System.out.println(list_parking);
+                    trier_proba(list_parking,weekOuSemaine,depart_time);
+                    System.out.println("List parking après:");
+                    System.out.println(list_parking);
+                    try {
+                        listData = getData();
+                        try {
+
+                            adapter = new SimpleAdapter(getActivity(), listData, R.layout.model_list,
+                                    new String[]{"name", "capa", "distance", "proba", "frais","imcapa","imdis","imfrais"},
+                                    new int[]{R.id.name, R.id.capacity, R.id.disTxt, R.id.proba, R.id.fraisTxt,R.id.capa,R.id.distance,R.id.frais});
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        lv.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
                 }
 
@@ -233,7 +256,45 @@ public class MyList extends Fragment {
         System.out.println(temp2);
         list_parking = temp2;
     }
+    /// array = list_parking
+    public void trier_proba(ArrayList<Integer> array, String periode, double temps){
+        ArrayList<Double> proba= new ArrayList<>();
+        ArrayList<Double> temp = new ArrayList<>();
+        ArrayList<Integer> indiceTemp = new ArrayList<>();
+        ArrayList<Integer> temp2 = new ArrayList<>();
+        for (int i =0;i<array.size();i++) {
+            double probValeur = 0;
+            if (Parking.getProbaDouble(periode,array.get(i),temps) != -1){
+                probValeur = Parking.getProbaDouble(periode,array.get(i),temps);
+            }
+            proba.add(probValeur);
+        }
 
+        int i = 0;
+
+        double mineur = 1000;
+        int mineurInd = 0;
+        while( i<proba.size()) {
+            for ( int pointeur = 0; pointeur < proba.size();pointeur++) {
+                if ( !indiceTemp.contains(pointeur) & mineur > proba.get(pointeur) )
+                {
+                    mineur = proba.get(pointeur);
+                    mineurInd = pointeur;
+                }
+            }
+            indiceTemp.add(mineurInd);
+            i++;
+            mineur = 1000;
+        }
+
+        int aux = 0;
+        for (int k = indiceTemp.size() - 1;k>=0;k--){
+            temp2.add(array.get(indiceTemp.get(k)));
+        }
+        System.out.println("temp2");
+        System.out.println(temp2);
+        list_parking = temp2;
+    }
 /*
     public static ArrayList<Integer>[] trier_proba(ArrayList<Integer> array,double[] coord){
     double[] proba={};
@@ -304,7 +365,7 @@ public class MyList extends Fragment {
             }
             map.put("distance", (int) Parking.distance(coord,list_parking.get(i)));
             map.put("imdis", R.drawable.info);
-            map.put("proba", "70");
+            map.put("proba", setProbaText(Parking.getProba(weekOuSemaine,list_parking.get(i),depart_time)));
             map.put("frais", Parking.getReglementationIndex(list_parking.get(i)));
             map.put("imfrais", R.drawable.euro1);
 
@@ -312,35 +373,17 @@ public class MyList extends Fragment {
         }
 
         return list;
+    }
 
+    ///fonction pour gérer la couleur du txt avec la proba et sa valeur
+    public String setProbaText(int proba){
+        String probaText = String.valueOf(proba)+ "%";
+        if (proba == -1){probaText = "? %";}
+        return probaText;
 
-       /*if (L.length<1) {
-           return list;
-       }
-       else {
-            map = new HashMap<String, Object>();
-            map.put("name", Parking.getNomIndex(L[0]));
-            map.put("capa", Parking.getCapaciteIndex(L[0]));
-            map.put("type", Parking.getProprietaireIndex(L[0]));
-            map.put("proba", "70");
-            map.put("frais", Parking.getReglementationIndex(L[0]));
-            list.add(map);
-            if (L.length>=2) {
-                for (int j = 1; j < L.length; j++) {
-                    map = new HashMap<String, Object>();
-                    map.put("name", Parking.getNomIndex(L[j]));
-                    map.put("capa", Parking.getCapaciteIndex(L[j]));
-                    map.put("type", Parking.getProprietaireIndex(L[j]));
-                    map.put("proba", "70");
-                    map.put("frais", Parking.getReglementationIndex(L[j]));
-                    list.add(map);
-                }
-            }
-*/
 
 
     }
-
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.

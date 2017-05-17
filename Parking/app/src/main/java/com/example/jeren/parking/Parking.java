@@ -372,37 +372,6 @@ public class Parking {
         return R * c;
     }
 
-    public static int getProba(String periode, int index, double temps){
-        if (periode.equals("weekend")) {
-            if (probaWeek.containsKey(index)) {
-                double[] equation = probaWeek.get(index);
-                return (int) polinome(equation, temps);
-            }
-            else {
-                return -1;
-            }
-        }
-        else {
-            if (probaSemaine.containsKey(index)) {
-                double[] equation = probaSemaine.get(index);
-                return (int) polinome(equation, temps);
-            }
-            else {
-                return -1;
-            }
-
-        }
-    }
-
-    public static double polinome(double[] equation, double temps){
-        double resultat = 0;
-        for(int i = 0;i<equation.length;i++){
-            resultat +=equation[i]*Math.pow(temps,i);
-        }
-        return resultat;
-
-    }
-
 /// rayon en metres
     /*
     public static int[] parkingsProches(double[] coord, int rayon)
@@ -458,7 +427,72 @@ public class Parking {
         return parkings;
     }
 
+    public static int getProba(String periode, int index, double temps){
+        System.out.println("Hour: ");
+        System.out.println(temps);
+        if (periode.equals("weekend")) {
+            if (probaWeek.containsKey(index)) {
+                double[] equation = probaWeek.get(index);
+                return (int) (100*polinome(equation, temps));
+            }
+            else {
+                System.out.println("Il n'y a pas les polinomes pour ce parking");
+                return -1;
+            }
+        }
+        else {
+            if (probaSemaine.containsKey(index)) {
+                double[] equation = probaSemaine.get(index);
+                return (int) (100*polinome(equation, temps));
+            }
+            else {
+                System.out.println("Il n'y a pas les polinomes pour ce parking");
+                return -1;
+            }
 
+        }
+    }
+
+    public static double getProbaDouble(String periode, int index, double temps){
+        System.out.println("Hour: ");
+        System.out.println(temps);
+        if (periode.equals("weekend")) {
+            if (probaWeek.containsKey(index)) {
+                double[] equation = probaWeek.get(index);
+                return (100*polinome(equation, temps));
+            }
+            else {
+                System.out.println("Il n'y a pas les polinomes pour ce parking");
+                return -1;
+            }
+        }
+        else {
+            if (probaSemaine.containsKey(index)) {
+                double[] equation = probaSemaine.get(index);
+                return (100*polinome(equation, temps));
+            }
+            else {
+                System.out.println("Il n'y a pas les polinomes pour ce parking");
+                return -1;
+            }
+
+        }
+    }
+
+    public static double polinome(double[] equation, double temps){
+        double resultat = 0;
+        for(int i = 0;i<equation.length;++i){
+            resultat +=equation[equation.length-i-1]*Math.pow(temps,i);
+
+        }
+        System.out.println("Proba (double): ");
+        System.out.println(resultat);
+        System.out.println("Proba (int): ");
+        System.out.println(resultat);
+
+        return resultat;
+
+    }
 }
 
 

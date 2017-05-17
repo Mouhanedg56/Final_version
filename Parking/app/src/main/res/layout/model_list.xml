@@ -241,17 +241,6 @@
                         android:textColor="#FFA228"
                         android:textSize="30dp" />
 
-                    <TextView
-                        android:id="@+id/end"
-                        android:layout_width="50dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:lines="1"
-                        android:padding="0dp"
-                        android:text="%"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textColor="#FFA228"
-                        android:textSize="30dp" />
 
                 </LinearLayout>
 

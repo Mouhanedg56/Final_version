@@ -96,7 +96,8 @@ public  class Map extends Fragment implements OnMapReadyCallback {
     private ProgressDialog progressDialog;
     private String destination;
     private String date;
-    private String depart_time;
+    private String weekOuSemaine;
+    private double depart_time;
     private LatLng destinationcoord;
     private ArrayList<Integer> list_parking;
     int rayon;
@@ -112,6 +113,7 @@ public  class Map extends Fragment implements OnMapReadyCallback {
     TextView nompopup;
     TextView capacitepopup;
     TextView gestionnairepopup;
+    TextView probapopup;
     ImageView LaunchGoogle;
     Marker selectedMarker;
     String selectedMarkerAdress;
@@ -129,6 +131,8 @@ public  class Map extends Fragment implements OnMapReadyCallback {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.mapfragment, container, false);
+
+        probapopup = (TextView) rootView.findViewById(R.id.probapopup);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
             /*
             btnFindPath = (Button) rootView.findViewById(R.id.btnFindPath);
@@ -155,7 +159,10 @@ public  class Map extends Fragment implements OnMapReadyCallback {
         Intent intent = getActivity().getIntent();
         destination = intent.getStringExtra("destination");
         date = intent.getStringExtra("date");
-        depart_time = intent.getStringExtra("depart_time");
+        weekOuSemaine = intent.getStringExtra("weekOuSemaine");
+        System.out.println("WeekOuSemaine : ");
+        System.out.println(weekOuSemaine);
+        depart_time = intent.getDoubleExtra("depart_time", 0);
         rayon = intent.getExtras().getInt("rayon");
         parkingsAvecTR = intent.getIntegerArrayListExtra("parkingsAvecTR");
         etat_parkingsAvecTR = intent.getStringArrayListExtra("etat_parkingsAvecTR");
@@ -238,6 +245,7 @@ public  class Map extends Fragment implements OnMapReadyCallback {
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
+                probapopup.setText("");
                 if (MarkerNom.containsKey(marker)) {
                     nompopup.setText((String) MarkerNom.get(marker));
                     gestionnairepopup.setText((String) MarkerGestionnaire.get(marker));
@@ -249,6 +257,8 @@ public  class Map extends Fragment implements OnMapReadyCallback {
                         else {
                             capacitepopup.setText(etat_parkingsAvecTR.get(parkingsAvecTR.indexOf(MarkerIndex.get(marker))));
                         }
+                        setProbaText((Parking.getProba(weekOuSemaine, (int) MarkerIndex.get(marker),depart_time)));
+
                     }
                     else{capacitepopup.setText("Données Indisponibles");}
 
@@ -396,6 +406,16 @@ public  class Map extends Fragment implements OnMapReadyCallback {
             progressBar.setVisibility(View.INVISIBLE);
             return;
         }
+    }
+
+    ///fonction pour gérer la couleur du txt avec la proba et sa valeur
+    public void setProbaText(int proba){
+        String probaText = String.valueOf(proba)+"%";
+        probapopup.setText(probaText);
+        if (proba>20){probapopup.setTextColor(Color.GREEN);}
+        else if (proba > 10){probapopup.setTextColor(Color.YELLOW);}
+        else if (proba >= 0){probapopup.setTextColor(Color.RED);}
+        else{probapopup.setText(""); } /// en cas de pas avoir des données corcenant le parking
     }
 }
 

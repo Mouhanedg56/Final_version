@@ -72,7 +72,8 @@ public class TabActivity extends AppCompatActivity {
     double[] coord;
     String destination;
     String date;
-    String depart_time;
+    String weekOuSemaine;
+    double depart_time;
     int rayon;
     ArrayList<Integer> parkingsAvecTR;
     ArrayList<String> etat_parkingsAvecTR;
@@ -100,12 +101,11 @@ public class TabActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-
-
         Intent intent = getIntent();
         destination = intent.getStringExtra("destination");
         date = intent.getStringExtra("date");
-        depart_time = intent.getStringExtra("depart_time");
+        depart_time = intent.getDoubleExtra("depart_time",0);
+        weekOuSemaine = intent.getStringExtra("weekOuSemaine");
         rayon = intent.getExtras().getInt("rayon");
         parkingsAvecTR = intent.getIntegerArrayListExtra("parkingsAvecTR");
         etat_parkingsAvecTR = intent.getStringArrayListExtra("etat_parkingsAvecTR");

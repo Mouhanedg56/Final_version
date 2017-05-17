@@ -41,6 +41,7 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
+import java.util.HashMap;
 import java.util.zip.Inflater;
 
 
@@ -77,6 +78,7 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
     private RadioButton radioGratuit;
     private RadioButton radioJemenfou;
     private RadioGroup radioGroup;
+    private HashMap<String,String> moiscorrespondant = new HashMap<>();
     private GoogleApiClient mGoogleApiClient;
     private PlaceArrayAdapter mPlaceArrayAdapter;
     private static final LatLngBounds BOUNDS_MOUNTAIN_VIEW = new LatLngBounds(
@@ -88,7 +90,18 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.accueil);
         getApplicationContext();
-
+        moiscorrespondant.put("Janvier","01");
+        moiscorrespondant.put("Février","02");
+        moiscorrespondant.put("Mars","03");
+        moiscorrespondant.put("Avril","04");
+        moiscorrespondant.put("Mai","05");
+        moiscorrespondant.put("Juin","06");
+        moiscorrespondant.put("Juillet","07");
+        moiscorrespondant.put("Août","08");
+        moiscorrespondant.put("Septembre","09");
+        moiscorrespondant.put("Octobre","10");
+        moiscorrespondant.put("Novembre","11");
+        moiscorrespondant.put("Décembre","12");
 
 
         year = (Spinner) findViewById(R.id.year);
@@ -123,8 +136,10 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
 
     public void GoToMap(View v){
         String todestination = destination.getText().toString(); ///prendre le texte de la destination saisie par l'utilisateur
-        String todate = day.getSelectedItem().toString() + month.getSelectedItem().toString() + year.getSelectedItem().toString(); ///prendre le jour, le mois et l'année que l'utilisateur a choisi
-        String depart_time = hour.getSelectedItem().toString() + ':' + minute.getSelectedItem().toString(); /// idem pour l'heure et les minutes
+        String todate = day.getSelectedItem().toString() + "/" + moiscorrespondant.get(month.getSelectedItem().toString()) + "/" + year.getSelectedItem().toString(); ///prendre le jour, le mois et l'année que l'utilisateur a choisi
+        System.out.println("date: ");
+        System.out.println(todate);
+        double depart_time = ( Double.parseDouble(hour.getSelectedItem().toString())  + Double.parseDouble(minute.getSelectedItem().toString())/60); //idem pour l'heure et le minute. Unité des heures
         if (todestination.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Please enter destination address!", Toast.LENGTH_SHORT).show();
             return;

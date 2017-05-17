@@ -30,15 +30,20 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 public class TransitionActivity extends AppCompatActivity {
     String destination;
     String date;
-    String depart_time;
+    double depart_time;
     int rayon;
     ArrayList<Integer> parkingsAvecTR;
     ArrayList<String> etat_parkingsAvecTR;
@@ -50,6 +55,8 @@ public class TransitionActivity extends AppCompatActivity {
     CountDownLatch countDownLatch;
     boolean payant;
     boolean gratuit;
+    String weekOuSemaine;
+
 
 
     @Override
@@ -70,53 +77,74 @@ public class TransitionActivity extends AppCompatActivity {
         Intent intent = getIntent();
         destination = intent.getStringExtra("destination");
         date = intent.getStringExtra("date");
-        depart_time = intent.getStringExtra("depart_time");
+        depart_time = intent.getDoubleExtra("depart_time",0);
         rayon = intent.getIntExtra("rayon",0);
         payant = intent.getBooleanExtra("payant",true);
         gratuit = intent.getBooleanExtra("gratuit",true);
+
+        ///jours feries en France
+        ArrayList<Date> jourFeries = new ArrayList<>();
+        DateFormat format = new SimpleDateFormat("dd/MM/YYYY");
+        try {
+            jourFeries.add(format.parse("01/01/2017"));
+            jourFeries.add(format.parse("01/01/2018"));
+            jourFeries.add(format.parse("01/01/2019"));
+            jourFeries.add(format.parse("17/04/2017"));
+            jourFeries.add(format.parse("02/04/2018"));
+            jourFeries.add(format.parse("22/04/2019"));
+            jourFeries.add(format.parse("01/05/2017"));
+            jourFeries.add(format.parse("01/05/2018"));
+            jourFeries.add(format.parse("01/05/2019"));
+            jourFeries.add(format.parse("08/05/2017"));
+            jourFeries.add(format.parse("08/05/2018"));
+            jourFeries.add(format.parse("08/05/2019"));
+            jourFeries.add(format.parse("25/05/2017"));
+            jourFeries.add(format.parse("10/05/2018"));
+            jourFeries.add(format.parse("30/05/2019"));
+            jourFeries.add(format.parse("05/06/2017"));
+            jourFeries.add(format.parse("21/05/2018"));
+            jourFeries.add(format.parse("10/06/2019"));
+            jourFeries.add(format.parse("14/07/2017"));
+            jourFeries.add(format.parse("14/07/2018"));
+            jourFeries.add(format.parse("14/07/2019"));
+            jourFeries.add(format.parse("15/08/2017"));
+            jourFeries.add(format.parse("15/08/2018"));
+            jourFeries.add(format.parse("15/08/2019"));
+            jourFeries.add(format.parse("01/11/2017"));
+            jourFeries.add(format.parse("01/11/2018"));
+            jourFeries.add(format.parse("01/11/2019"));
+            jourFeries.add(format.parse("11/11/2017"));
+            jourFeries.add(format.parse("11/11/2018"));
+            jourFeries.add(format.parse("11/11/2019"));
+            jourFeries.add(format.parse("25/12/2017"));
+            jourFeries.add(format.parse("25/12/2018"));
+            jourFeries.add(format.parse("25/12/2019"));
+        }
+        catch (ParseException e){e.printStackTrace();}
+
+
+
+        ///vérifier le jour de la semaine
+        Calendar calendar = Calendar.getInstance();
+        try {
+            Date date_depart = format.parse(date);
+            calendar.setTime(date_depart);
+            if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || jourFeries.contains(date_depart)){
+                weekOuSemaine = "weekend";
+            }
+            else{ weekOuSemaine = "semaine";}
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         new JSONtask().execute();
         JSONThread jsonThread = new JSONThread();
         Thread threadGrandLyon = new Thread(jsonThread);
         threadGrandLyon.start();
 
-        /*
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        new JSONtask().execute();
-
-
-
-                    }
-                });
-
-            }
-        }).start();
-        */
-
         WaitThread waitThread = new WaitThread();
         Thread thread = new Thread(waitThread);
         thread.start();
-
-
-
-
-
-
     }
-
-
-
-
-
 
     public class JSONtask extends AsyncTask<URL, String, String> {
 
@@ -298,7 +326,7 @@ public class TransitionActivity extends AppCompatActivity {
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             i.putExtra("destination",destination);
-            i.putExtra("date",date);
+            i.putExtra("weekOuSemaine",weekOuSemaine);
             i.putExtra("depart_time",depart_time);
             i.putExtra("rayon",rayon);
             i.putIntegerArrayListExtra("parkingsAvecTR",parkingsAvecTR);

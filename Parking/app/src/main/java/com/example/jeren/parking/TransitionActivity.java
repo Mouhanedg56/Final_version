@@ -41,6 +41,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 
+import static android.content.Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP;
+
 public class TransitionActivity extends AppCompatActivity {
     String destination;
     String date;
@@ -82,6 +84,17 @@ public class TransitionActivity extends AppCompatActivity {
         rayon = intent.getIntExtra("rayon",0);
         payant = intent.getBooleanExtra("payant",true);
         gratuit = intent.getBooleanExtra("gratuit",true);
+
+        destinationcoord = getLocationFromAddress(getApplicationContext(), destination);
+        if (destinationcoord == null){
+            Intent i = new Intent("com.example.jeren.parking.WELCOME");
+            i.putExtra("adressenontrouve",1);
+            i.addFlags(FLAG_ACTIVITY_PREVIOUS_IS_TOP);
+            startActivity(i);
+            finish();
+            return;}
+        else{
+            double[] coord = new double[]{destinationcoord.longitude, destinationcoord.latitude};}
 
         ///jours feries en France
         ArrayList<Date> jourFeries = new ArrayList<>();

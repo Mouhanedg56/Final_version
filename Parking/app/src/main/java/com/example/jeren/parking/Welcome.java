@@ -1,14 +1,21 @@
 package com.example.jeren.parking;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.Layout;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -20,12 +27,14 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import android.support.v4.app.Fragment;
@@ -40,7 +49,9 @@ import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.vision.text.Text;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.zip.Inflater;
 
@@ -49,15 +60,22 @@ import java.util.zip.Inflater;
  * Created by jeren on 2017/2/5.
  */
 
-public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
+public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private Button recherche;
-    private Spinner year;
-    private Spinner month;
-    private Spinner day;
-    private Spinner hour;
-    private Spinner minute;
     private CheckBox check;
+
+    private int yearFinal;
+    private int monthFinal;
+    private int dayFinal;
+    private int hourFinal;
+    private int minuteFinal;
+    private int year;
+    private int month;
+    private int day;
+    private int hour;
+    private int minute;
+    private String todate;
 
     /// Rayon
     private static SeekBar seek_bar;
@@ -74,6 +92,8 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
     private TextView mPhoneTextView;
     private TextView mWebTextView;
     private TextView mAttTextView;
+    private TextView date;
+    private TextView moment;
     private RadioButton radioPayant;
     private RadioButton radioGratuit;
     private RadioButton radioJemenfou;
@@ -103,17 +123,90 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
         moiscorrespondant.put("Novembre","11");
         moiscorrespondant.put("Décembre","12");
 
+        int adressenontrouve;
+        Intent activityReopenned = getIntent();
+        adressenontrouve = activityReopenned.getIntExtra("adressenontrouve",0);
+        if (adressenontrouve==1){Toast.makeText(getApplicationContext(), "Veuillez saisir une autre adresse", Toast.LENGTH_SHORT).show();}
 
-        year = (Spinner) findViewById(R.id.year);
-        month = (Spinner) findViewById(R.id.month);
-        day = (Spinner) findViewById(R.id.day);
-        hour = (Spinner) findViewById(R.id.hour);
-        minute = (Spinner) findViewById(R.id.minute);
+
+            date = (TextView) findViewById(R.id.dateTxtAccueil);
+        moment = (TextView) findViewById(R.id.timeTxtAccueil);
         recherche = (Button) findViewById(R.id.recherche);
         radioGratuit = (RadioButton) findViewById(R.id.radio_gratuit); ///parkings gratuits selectionnés
         radioPayant = (RadioButton) findViewById(R.id.radio_payant); /// parkings payants selectionnés
         radioJemenfou = (RadioButton) findViewById(R.id.radio_jemenfou); /// parkings payants ou gratuits (je m'en fou)
         radioGroup = (RadioGroup) findViewById(R.id.radio_group);
+
+        Calendar c = Calendar.getInstance();
+        hourFinal = c.get(Calendar.HOUR_OF_DAY);
+        minuteFinal = c.get(Calendar.MINUTE);
+        yearFinal = c.get(Calendar.YEAR);
+        monthFinal = c.get(Calendar.MONTH);
+        dayFinal = c.get(Calendar.DAY_OF_MONTH);
+
+
+        String zeroHour = "";
+        String zeroMinute = "";
+        String zeroDay = "";
+        String zeroMonth = "";
+        if (dayFinal<10) {zeroDay = "0";}
+        if (monthFinal<10) {zeroMonth = "0";}
+        if (hourFinal<10) {zeroMonth = "0";}
+        if (minuteFinal<10) {zeroMinute = "0";}
+        date.setText(zeroDay + dayFinal + "/" + zeroMonth + monthFinal +"/" + yearFinal);
+        moment.setText(zeroHour + hourFinal +":" + zeroMinute + minuteFinal);
+
+
+        date.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    Calendar  c = Calendar.getInstance();
+                    year = c.get(Calendar.YEAR);
+                    month = c.get(Calendar.MONTH);
+                    day = c.get(Calendar.DAY_OF_MONTH);
+                    DatePickerDialog datePickerDialog = new DatePickerDialog(Welcome.this, Welcome.this, year, month, day);
+                    datePickerDialog.show();
+                }
+            }
+        });
+
+        date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void  onClick(View view){
+                Calendar  c = Calendar.getInstance();
+                year = c.get(Calendar.YEAR);
+                month = c.get(Calendar.MONTH);
+                day = c.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(Welcome.this, Welcome.this, year, month, day);
+                datePickerDialog.show();
+            }
+        });
+
+        moment.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    Calendar  c = Calendar.getInstance();
+                    hour = c.get(Calendar.HOUR_OF_DAY);
+                    minute = c.get(Calendar.MINUTE);
+                    TimePickerDialog timePickerDialog = new TimePickerDialog(Welcome.this, Welcome.this, hour, minute, true);
+                    timePickerDialog.show();
+                }
+            }
+        });
+        moment.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void  onClick(View view){
+                Calendar  c = Calendar.getInstance();
+                hour = c.get(Calendar.HOUR_OF_DAY);
+                minute = c.get(Calendar.MINUTE);
+                TimePickerDialog timePickerDialog = new TimePickerDialog(Welcome.this, Welcome.this, hour, minute, true);
+                timePickerDialog.show();
+
+            }
+        });
 
         mGoogleApiClient = new GoogleApiClient.Builder(Welcome.this)
                 .addApi(Places.GEO_DATA_API)
@@ -129,22 +222,47 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
         
         setupUI(findViewById(R.id.welcome_layout));
         Fseekbar();
-        checkini();
 
 
     }
 
     public void GoToMap(View v){
         String todestination = destination.getText().toString(); ///prendre le texte de la destination saisie par l'utilisateur
-        String todate = day.getSelectedItem().toString() + "/" + moiscorrespondant.get(month.getSelectedItem().toString()) + "/" + year.getSelectedItem().toString(); ///prendre le jour, le mois et l'année que l'utilisateur a choisi
-        System.out.println("date: ");
-        System.out.println(todate);
-        double depart_time = ( Double.parseDouble(hour.getSelectedItem().toString())  + Double.parseDouble(minute.getSelectedItem().toString())/60); //idem pour l'heure et le minute. Unité des heures
+        String todate = date.getText().toString(); ///prendre le jour, le mois et l'année que l'utilisateur a choisi
+        double depart_time = (double) (hourFinal  + minuteFinal/60); //idem pour l'heure et le minute. Unité des heures
+        if (!isOnline()) {
+            try {
+                System.out.println("is not online");
+                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+                return;
+            }
+            catch (Exception e){e.printStackTrace();                 System.out.println("online exception");}
+        }
+
         if (todestination.isEmpty()) {
-            Toast.makeText(getApplicationContext(), "Please enter destination address!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Veuillez saisir la destination", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        if (date.getText().equals("")) {
+            Toast.makeText(getApplicationContext(), "Veuillez choisir la date", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (moment.getText().equals("")) {
+            Toast.makeText(getApplicationContext(), "Veuillez choisir l'heure", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         rayon = seek_bar.getProgress(); /// prendre le rayon choisi dans la seekbar
         Intent i = new Intent("com.example.jeren.parking.TRANSITION"); /// creation de l'intent pour aller à l'activité TransitionActivity
@@ -295,51 +413,45 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
         );
 
     }
-    public void checkini() {
-        check = (CheckBox) findViewById(R.id.checkBox); /// partir maintenant
-        check.setChecked(false);
-//        ((Spinner) year).getSelectedView().setEnabled(false);
-//        year.setEnabled(false);
-//        ((Spinner) month).getSelectedView().setEnabled(false);
-//        month.setEnabled(false);
-//        ((Spinner) day).getSelectedView().setEnabled(false);
-//        day.setEnabled(false);
-//        ((Spinner) hour).getSelectedView().setEnabled(false);
-//        hour.setEnabled(false);
-//        ((Spinner) minute).getSelectedView().setEnabled(false);
-//        minute.setEnabled(false);
-        check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                             @Override
-                                             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) { ///bloquer la choix de date si on veut partir maintenant
-                                                 if (buttonView.isChecked()) {
-                                                     ((Spinner) year).getSelectedView().setEnabled(false);
-                                                     year.setEnabled(false);
-                                                     ((Spinner) month).getSelectedView().setEnabled(false);
-                                                     month.setEnabled(false);
-                                                     ((Spinner) day).getSelectedView().setEnabled(false);
-                                                     day.setEnabled(false);
-                                                     ((Spinner) hour).getSelectedView().setEnabled(false);
-                                                     hour.setEnabled(false);
-                                                     ((Spinner) minute).getSelectedView().setEnabled(false);
-                                                     minute.setEnabled(false);//checked
-                                                 } else {
-                                                     ((Spinner) year).getSelectedView().setEnabled(true);
-                                                     year.setEnabled(true);
-                                                     ((Spinner) month).getSelectedView().setEnabled(true);
-                                                     month.setEnabled(true);
-                                                     ((Spinner) day).getSelectedView().setEnabled(true);
-                                                     day.setEnabled(true);
-                                                     ((Spinner) hour).getSelectedView().setEnabled(true);
-                                                     hour.setEnabled(true);
-                                                     ((Spinner) minute).getSelectedView().setEnabled(true);
-                                                     minute.setEnabled(true);//not checked
-                                                 }
 
-                                             }
+    @Override
+    public void onDateSet(DatePicker datePicker, int i, int i1, int i2){
+        yearFinal = i;
+        monthFinal = i1 + 1;
+        dayFinal = i2;
 
 
-                                         }
-        );
+        Calendar c = Calendar.getInstance();
+        hour = c.get(Calendar.HOUR_OF_DAY);
+        minute = c.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(Welcome.this, Welcome.this, hour, minute, DateFormat.is24HourFormat(this));
+        timePickerDialog.show();
     }
 
+    @Override
+    public void onTimeSet(TimePicker picker, int i, int i1){
+        hourFinal = i;
+        minuteFinal = i1;
+        String zeroHour = "";
+        String zeroMinute = "";
+        String zeroDay = "";
+        String zeroMonth = "";
+        if (dayFinal<10) {zeroDay = "0";}
+        if (monthFinal<10) {zeroMonth = "0";}
+        if (hourFinal<10) {zeroHour = "0";}
+        if (minuteFinal<10) {zeroMinute = "0";}
+        date.setText(zeroDay + dayFinal + "/" + zeroMonth + monthFinal +"/" + yearFinal);
+        moment.setText(zeroHour + hourFinal + ":" + zeroMinute + minuteFinal);
+
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo == null){return false;}
+        if (!netInfo.isConnected()){return false;}
+        if (!netInfo.isAvailable()){return false;}
+        return true;
+    }
 }

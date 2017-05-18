@@ -371,9 +371,9 @@ public  class Map extends Fragment implements OnMapReadyCallback {
     public void setProbaText(int proba){
         String probaText = String.valueOf(proba)+"%";
         probapopup.setText(probaText);
-        if (proba>20){probapopup.setTextColor(Color.GREEN);}
-        else if (proba > 10){probapopup.setTextColor(Color.YELLOW);}
-        else if (proba >= 0){probapopup.setTextColor(Color.RED);}
+        if (proba>20){probapopup.setTextColor(getActivity().getResources().getColor(R.color.greenProba));}
+        else if (proba > 10){probapopup.setTextColor(getActivity().getResources().getColor(R.color.orangeProba));}
+        else if (proba >= 0){probapopup.setTextColor(getActivity().getResources().getColor(R.color.redProba));}
         else{probapopup.setText(""); } /// en cas de pas avoir des données corcenant le parking
     }
 }

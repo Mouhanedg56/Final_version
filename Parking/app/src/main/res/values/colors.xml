@@ -3,5 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="greenProba">#008000</color>
+    <color name="orangeProba">#FFA228</color>
+    <color name="redProba">#B22222</color>
     <color name = "ListBackground">#e0e0e0</color>
 </resources>

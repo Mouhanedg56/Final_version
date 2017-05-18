@@ -5,13 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id = "@+id/welcome_layout"
-    >
+    android:weightSum="1">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="109dp"
         app:srcCompat="@drawable/parktout"
         android:id="@+id/imageView" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +22,9 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="1dp"
         android:background="@drawable/bg_focused"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="1"
+        android:layout_weight="0.44">
 
         <TextView
             android:id="@+id/destination"
@@ -75,173 +78,126 @@
                 android:padding="5dp"
                 android:text="500m"
                 android:textColor="@android:color/black"
+
                 android:textSize="20sp" />
 
 
         </LinearLayout>
 
-    </LinearLayout>
-    >
-
-
-
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@drawable/bg_focused"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp">
-        <TextView
-            android:text="  Date"
-
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/date"
-            android:textSize="24sp"
-            android:textColor="@android:color/black" />
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Partir maintenant"
-            android:textSize="18dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="1dp"
-            android:layout_marginTop="2dp"/>
-
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_margin="5dip"
             android:orientation="horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="3dp"
-            android:layout_marginTop="3dp"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"
             android:weightSum="1">
 
-
-
-            <Spinner
+            <ImageButton
+                android:id="@+id/imageButton2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:entries="@array/year"
-                android:id="@+id/year" />
+                android:backgroundTint="@color/cardview_light_background"
+                app:srcCompat="@drawable/calendaricon" />
 
 
-            <Spinner
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/month"
-                android:entries="@array/month" />
-
-            <Spinner
+            <TextView
+                android:id="@+id/dateTxtAccueil"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/day"
-                android:entries="@array/day" />
+                android:layout_height="match_parent"
+                android:textSize="15dip"
+                android:ems="10"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                style = "@style/Widget.AppCompat.EditText"
+                android:hint = "Quel jour?" />
+
+
+
         </LinearLayout>
-    </LinearLayout>>
-
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_focused"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="1dp"
-        android:layout_marginTop="1dp">
-        <TextView
-            android:text="  Temps de depart"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/temps"
-            android:textSize="24sp"
-            android:textColor="@android:color/black" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dip"
             android:orientation="horizontal"
-            android:layout_margin="18dip">
-            <Spinner
-                android:layout_width="104dp"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"
+            android:weightSum="1">
+
+            <ImageButton
+                android:id="@+id/imageButton5"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:entries="@array/hour"
-                android:id="@+id/hour" />
-
-            <Spinner
-                android:layout_width="107dp"
-                android:layout_height="wrap_content"
-                android:id="@+id/minute"
-                android:entries="@array/minute" />
+                android:backgroundTint="@color/cardview_light_background"
+                app:srcCompat="@drawable/clockicon" />
 
 
+            <TextView
+                android:id="@+id/timeTxtAccueil"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="15dip"
+                android:ems="10"
+                android:layout_gravity="center"
+                android:gravity="center_vertical"
+                style = "@style/Widget.AppCompat.EditText"
+                android:hint="À quelle heure?" />
 
 
         </LinearLayout>
 
+
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="3dp"
+            android:checkedButton="@+id/radio_jemenfou"
+            android:orientation="horizontal">
+            >
+
+            <RadioButton
+                android:id="@+id/radio_gratuit"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_weight="2"
+                android:text="Gratuit" />
+
+            <RadioButton
+                android:id="@+id/radio_payant"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_weight="2"
+                android:text="Payant" />
+
+            <RadioButton
+                android:id="@+id/radio_jemenfou"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_weight="2"
+                android:text="Gratuit et Payant" />
+
+        </RadioGroup>
+
+
+        <Button
+            android:id="@+id/recherche"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="1dp"
+            android:background="@android:color/holo_red_light"
+            android:onClick="GoToMap"
+            android:text="recherche"
+            android:textColor="@android:color/background_light"
+            android:textSize="@dimen/activity_vertical_margin" />
+
+
     </LinearLayout>
-
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="25dp"
-        android:id = "@+id/radio_group"
-        android:orientation="horizontal"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="1dp"
-        android:layout_marginTop="3dp"
-        android:checkedButton="@+id/radio_jemenfou">
-        >
-        <RadioButton
-            android:id="@+id/radio_gratuit"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_weight="2"
-            android:text="Gratuit" />
-        <RadioButton
-            android:id="@+id/radio_payant"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_weight="2"
-            android:text="Payant" />
-
-        <RadioButton
-            android:id="@+id/radio_jemenfou"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_weight="2"
-            android:text="Gratuit et Payant" />
-
-    </RadioGroup>
-
-
-
-    <Button
-        android:text="recherche"
-        android:textColor="@android:color/background_light"
-        android:textSize="@dimen/activity_vertical_margin"
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:id="@+id/recherche"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="1dp"
-        android:background="@android:color/holo_red_light"
-        android:onClick="GoToMap"/>
-
-
 </LinearLayout>

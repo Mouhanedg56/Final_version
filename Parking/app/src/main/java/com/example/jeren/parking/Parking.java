@@ -88,6 +88,15 @@ public class Parking {
         return idParkingList.get(i);
     }
 
+    public static int getIdCriterIndex(int i)
+    {   int resultat;
+        try {
+        resultat = Integer.parseInt(idParkingcriterList.get(i));
+    }
+    catch(NumberFormatException e){ resultat = -1;}
+        return resultat;
+    }
+
     public static String getFermetureIndex(int i) {return fermetureList.get(i);}
 
     public static  String getCommuneIndex(int i)
@@ -431,22 +440,30 @@ public class Parking {
         System.out.println("Hour: ");
         System.out.println(temps);
         if (periode.equals("weekend")) {
-            if (probaWeek.containsKey(index)) {
-                double[] equation = probaWeek.get(index);
+            if (probaWeek.containsKey(getIdCriterIndex(index))) {
+                double[] equation = probaWeek.get(getIdCriterIndex(index));
                 return (int) (100*polinome(equation, temps));
             }
             else {
                 System.out.println("Il n'y a pas les polinomes pour ce parking");
+                System.out.println("(weekend)");
+                System.out.println(getIdCriterIndex(index));
                 return -1;
             }
         }
         else {
-            if (probaSemaine.containsKey(index)) {
-                double[] equation = probaSemaine.get(index);
+            if (probaSemaine.containsKey(getIdCriterIndex(index))) {
+                double[] equation = probaSemaine.get(getIdCriterIndex(index));
                 return (int) (100*polinome(equation, temps));
             }
             else {
                 System.out.println("Il n'y a pas les polinomes pour ce parking");
+                System.out.println("(semaine)");
+                System.out.println(probaSemaine.containsKey(getIdCriterIndex(index)));
+                System.out.println(probaSemaine.containsKey(getIdIndex(index)));
+                System.out.println(probaSemaine.containsKey(index));
+                System.out.println(probaSemaine.keySet());
+                System.out.println(getIdCriterIndex(index));
                 return -1;
             }
 
@@ -457,22 +474,30 @@ public class Parking {
         System.out.println("Hour: ");
         System.out.println(temps);
         if (periode.equals("weekend")) {
-            if (probaWeek.containsKey(index)) {
-                double[] equation = probaWeek.get(index);
-                return (100*polinome(equation, temps));
+            if (probaWeek.containsKey(getIdCriterIndex(index))) {
+                double[] equation = probaWeek.get(getIdCriterIndex(index));
+                return (int) (100*polinome(equation, temps));
             }
             else {
                 System.out.println("Il n'y a pas les polinomes pour ce parking");
+                System.out.println("(weekend)");
+                System.out.println(getIdCriterIndex(index));
                 return -1;
             }
         }
         else {
-            if (probaSemaine.containsKey(index)) {
-                double[] equation = probaSemaine.get(index);
-                return (100*polinome(equation, temps));
+            if (probaSemaine.containsKey(getIdCriterIndex(index))) {
+                double[] equation = probaSemaine.get(getIdCriterIndex(index));
+                return (int) (100*polinome(equation, temps));
             }
             else {
                 System.out.println("Il n'y a pas les polinomes pour ce parking");
+                System.out.println("(semaine)");
+                System.out.println(probaSemaine.containsKey(getIdCriterIndex(index)));
+                System.out.println(probaSemaine.containsKey(getIdIndex(index)));
+                System.out.println(probaSemaine.containsKey(index));
+                System.out.println(probaSemaine.keySet());
+                System.out.println(getIdCriterIndex(index));
                 return -1;
             }
 

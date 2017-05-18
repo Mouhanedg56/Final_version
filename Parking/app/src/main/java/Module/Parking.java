@@ -88,6 +88,11 @@ public class Parking {
         return idParkingList.get(i);
     }
 
+    public static int getIdCriterIndex(int i)
+    {
+        return Integer.parseInt(idParkingcriterList.get(i));
+    }
+
     public static String getFermetureIndex(int i) {return fermetureList.get(i);}
 
     public static  String getCommuneIndex(int i)
@@ -172,72 +177,6 @@ public class Parking {
     public static void init(Context context) throws Exception
 
     {
-
-        try {
-            InputStream is = context.getAssets().open("infocomplete.txt");
-
-
-
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            String text = new String(buffer);
-            String[] lines;
-            lines = text.split("\n");
-            for (int i = 0; i<=998; i++)
-            {
-
-                String[] infosParking = lines[i].split("\\{ ")[2].replace(", ", ":").replace(": ", ":").replace("\\","").split(":");
-                String [] coordParking = lines[i].split("\\{ ")[3].replace("]", "[").split(" \\[ ")[1].split(", ");
-
-
-                nomList.add(infosParking[1]);
-                idParkingList.add(infosParking[3]);
-                idParkingcriterList.add(infosParking[5]);
-                communeList.add(infosParking[7]);
-                proprietaireList.add(infosParking[9]);
-                gestionnaireList.add(infosParking[11]);
-                idfournisseurList.add(infosParking[13]);
-                voieentreeList.add(infosParking[15]);
-                voiesortieList.add(infosParking[17]);
-                avancementList.add(infosParking[19]);
-                anneeList.add(infosParking[21]);
-                typeParkingList.add(infosParking[23]);
-                situationList.add(infosParking[25]);
-                ParkingtempsreelList.add(infosParking[27]);
-                gabaritList.add(infosParking[29]);
-                capaciteList.add(infosParking[31]);
-                capacite2rmList.add(infosParking[33]);
-                capaciteveloList.add(infosParking[35]);
-                capaciteautopartageList.add(infosParking[37]);
-                capacitepmrList.add(infosParking[39]);
-                usageList.add(infosParking[41]);
-                vocationList.add(infosParking[43]);
-                reglementationList.add(infosParking[45]);
-                fermetureList.add(infosParking[47]);
-                observationList.add(infosParking[49]);
-                codetypeList.add(infosParking[51]);
-                gidList.add(infosParking[53]);
-                coordList.add(coordParking);
-
-
-
-            }
-
-        }
-        catch (UnsupportedEncodingException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        catch (IOException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
 
         ///ajoute des probas pour certains parkings
         probaWeek.put(18, new double[] {-1.74387279398E-20,3.69737668278E-18,-3.49838978494E-16,1.91666168092E-14,-6.47999202141E-13,1.23815971293E-11,-3.29187750398E-11,-5.77008509555E-09,2.00487526023E-07,-3.91911038288E-06,5.25810384984E-05,-0.000510299050131,0.00363046179317,-0.0188156350905,0.0694292934655,-0.174225439937,0.27040335905,-0.195532947854,-0.0559624673485,0.185236577132,0.805156569966});
@@ -333,6 +272,74 @@ public class Parking {
         probaSemaine.put(20, new double[] {2.00159004626E-19,-4.13485202484E-17,3.79127638029E-15,-1.99890937421E-13,6.42890150465E-12,-1.12983465992E-10,2.33644395159E-11,5.88997310884E-08,-1.84275947249E-06,3.34759018869E-05,-0.000418254639767,0.00376013655589,-0.0245321447264,0.114812668647,-0.373756395248,0.796727890501,-0.973802360726,0.407058539626,0.367175000485,-0.35054822051,0.574633547603});
         probaSemaine.put(1, new double[] {-1.6724239949E-19,3.41742843846E-17,-3.095189762E-15,1.60813532339E-13,-5.07127918273E-12,8.58922127208E-11,8.77955961927E-11,-4.74516603026E-08,1.41985947142E-06,-2.4907629712E-05,0.000299460885238,-0.00256834565667,0.0157710370914,-0.0680955908618,0.198549290715,-0.361775211693,0.343588101416,-0.054294964281,-0.157703693181,0.093256204683,0.43857449248});
         probaSemaine.put(3, new double[] {-7.21824123769E-20,1.45915292543E-17,-1.30174695196E-15,6.62149781949E-14,-2.02301584679E-12,3.21845335233E-11,9.49474800215E-11,-1.89659102156E-08,5.24194072346E-07,-8.55353074189E-06,9.45196357201E-05,-0.000728601156455,0.00387595140054,-0.0135848886162,0.0280180085862,-0.0229825415348,-0.0184802986518,0.0312505384522,0.028967953266,-0.0517850574743,0.61139813859});
+
+
+        try {
+            InputStream is = context.getAssets().open("infocomplete.txt");
+
+
+
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            String text = new String(buffer);
+            String[] lines;
+            lines = text.split("\n");
+            for (int i = 0; i<=998; i++)
+            {
+
+                String[] infosParking = lines[i].split("\\{ ")[2].replace(", ", ":").replace(": ", ":").replace("\\","").split(":");
+                String [] coordParking = lines[i].split("\\{ ")[3].replace("]", "[").split(" \\[ ")[1].split(", ");
+
+
+                nomList.add(infosParking[1]);
+                idParkingList.add(infosParking[3]);
+                idParkingcriterList.add(infosParking[5]);
+                communeList.add(infosParking[7]);
+                proprietaireList.add(infosParking[9]);
+                gestionnaireList.add(infosParking[11]);
+                idfournisseurList.add(infosParking[13]);
+                voieentreeList.add(infosParking[15]);
+                voiesortieList.add(infosParking[17]);
+                avancementList.add(infosParking[19]);
+                anneeList.add(infosParking[21]);
+                typeParkingList.add(infosParking[23]);
+                situationList.add(infosParking[25]);
+                ParkingtempsreelList.add(infosParking[27]);
+                gabaritList.add(infosParking[29]);
+                capaciteList.add(infosParking[31]);
+                capacite2rmList.add(infosParking[33]);
+                capaciteveloList.add(infosParking[35]);
+                capaciteautopartageList.add(infosParking[37]);
+                capacitepmrList.add(infosParking[39]);
+                usageList.add(infosParking[41]);
+                vocationList.add(infosParking[43]);
+                reglementationList.add(infosParking[45]);
+                fermetureList.add(infosParking[47]);
+                observationList.add(infosParking[49]);
+                codetypeList.add(infosParking[51]);
+                gidList.add(infosParking[53]);
+                coordList.add(coordParking);
+
+
+
+            }
+
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        catch (IOException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+
 
 
 
@@ -431,22 +438,30 @@ public class Parking {
         System.out.println("Hour: ");
         System.out.println(temps);
         if (periode.equals("weekend")) {
-            if (probaWeek.containsKey(index)) {
-                double[] equation = probaWeek.get(index);
+            if (probaWeek.containsKey(getIdCriterIndex(index))) {
+                double[] equation = probaWeek.get(getIdCriterIndex(index));
                 return (int) (100*polinome(equation, temps));
             }
             else {
                 System.out.println("Il n'y a pas les polinomes pour ce parking");
+                System.out.println("(weekend)");
+                System.out.println(getIdCriterIndex(index));
                 return -1;
             }
         }
         else {
-            if (probaSemaine.containsKey(index)) {
-                double[] equation = probaSemaine.get(index);
+            if (probaSemaine.containsKey(getIdCriterIndex(index))) {
+                double[] equation = probaSemaine.get(getIdCriterIndex(index));
                 return (int) (100*polinome(equation, temps));
             }
             else {
                 System.out.println("Il n'y a pas les polinomes pour ce parking");
+                System.out.println("(semaine)");
+                System.out.println(probaSemaine.containsKey(getIdCriterIndex(index)));
+                System.out.println(probaSemaine.containsKey(getIdIndex(index)));
+                System.out.println(probaSemaine.containsKey(index));
+                System.out.println(probaSemaine.keySet());
+                System.out.println(getIdCriterIndex(index));
                 return -1;
             }
 

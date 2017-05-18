@@ -304,6 +304,8 @@ public class MyList extends Fragment {
         ArrayList<Integer> temp2 = new ArrayList<>();
         for (int i =0;i<array.size();i++) {
             double probValeur = 0;
+            System.out.print("array.get(i) = ");
+            System.out.println(array.get(i));
             if (Parking.getProbaDouble(periode,array.get(i),temps) != -1){
                 probValeur = Parking.getProbaDouble(periode,array.get(i),temps);
             }

@@ -42,7 +42,7 @@
             android:layout_margin="10dip"
             android:background="@drawable/bg_selecter"
             android:dropDownHeight="100dp"
-            android:hint="address..."
+            android:hint="adresse..."
             android:padding="5dip"
             android:textColorHint="#AAAAAA"
             android:textSize="15dip" />

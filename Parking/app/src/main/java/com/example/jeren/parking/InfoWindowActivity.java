@@ -120,9 +120,9 @@ public class InfoWindowActivity extends AppCompatActivity {
     public void setProbaText(int proba){
         String probaText = String.valueOf(proba)+"%";
         previsionView.setText(probaText);
-        if (proba>20){previsionView.setTextColor(Color.GREEN);}
-        else if (proba > 10){previsionView.setTextColor(Color.YELLOW);}
-        else if (proba >= 0){previsionView.setTextColor(Color.RED);}
+        if (proba>20){previsionView.setTextColor(getResources().getColor(R.color.greenProba));}
+        else if (proba > 10){previsionView.setTextColor(getResources().getColor(R.color.orangeProba));}
+        else if (proba >= 0){previsionView.setTextColor(getResources().getColor(R.color.redProba));}
         else{previsionView.setText(""); } /// en cas de pas avoir des données corcenant le parking
     }
 

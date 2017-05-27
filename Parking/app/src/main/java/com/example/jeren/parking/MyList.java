@@ -121,6 +121,7 @@ public class MyList extends Fragment {
         list_parking = intent.getIntegerArrayListExtra("list_parking");
         destinationcoord = getLocationFromAddress(getActivity(), destination);
         coord = new double[] {destinationcoord.longitude, destinationcoord.latitude};
+        System.out.println(weekOuSemaine);
 
         try {
             listData = getData();
@@ -488,6 +489,19 @@ public class MyList extends Fragment {
 
         return p1;
     }
+    /*
+    class MyViewBinder implements SimpleAdapter.ViewBinder {
+        int rouge = getResources().getColor(R.color.redProba);
+        int orange = getResources().getColor(R.color.orangeProba);
+        int vert = getResources().getColor(R.color.greenProba);
 
-
+        public boolean setViewValue(View view, Object data, String textRepresentation){
+            int i = 0;
+            switch (view.getId()){
+                case R.id.proba:
+                    i = Integer.parseInt(((String) data).split("%")[0].replace("?",""));
+                    if i>15)
+            }
+        }
+    }*/
 }

@@ -129,7 +129,7 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
         if (adressenontrouve==1){Toast.makeText(getApplicationContext(), "Veuillez saisir une autre adresse", Toast.LENGTH_SHORT).show();}
 
 
-            date = (TextView) findViewById(R.id.dateTxtAccueil);
+        date = (TextView) findViewById(R.id.dateTxtAccueil);
         moment = (TextView) findViewById(R.id.timeTxtAccueil);
         recherche = (Button) findViewById(R.id.recherche);
         radioGratuit = (RadioButton) findViewById(R.id.radio_gratuit); ///parkings gratuits selectionnés
@@ -141,7 +141,7 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
         hourFinal = c.get(Calendar.HOUR_OF_DAY);
         minuteFinal = c.get(Calendar.MINUTE);
         yearFinal = c.get(Calendar.YEAR);
-        monthFinal = c.get(Calendar.MONTH);
+        monthFinal = c.get(Calendar.MONTH)+1;
         dayFinal = c.get(Calendar.DAY_OF_MONTH);
 
 

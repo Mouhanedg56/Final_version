@@ -142,11 +142,17 @@ public class TransitionActivity extends AppCompatActivity {
 
         ///vérifier le jour de la semaine
         Calendar calendar = Calendar.getInstance();
+        System.out.println("Calendar");
+        System.out.println(Calendar.DAY_OF_WEEK);
+        System.out.println(Calendar.SUNDAY);
+        System.out.println(Calendar.SATURDAY);
+        System.out.println(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY);
         try {
             Date date_depart = format.parse(date);
             calendar.setTime(date_depart);
             if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || jourFeries.contains(date_depart)){
                 weekOuSemaine = "weekend";
+                System.out.println("WEEKEND");
             }
             else{ weekOuSemaine = "semaine";}
         } catch (ParseException e) {

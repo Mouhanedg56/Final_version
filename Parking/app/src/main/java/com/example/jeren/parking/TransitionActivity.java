@@ -1,20 +1,12 @@
 package com.example.jeren.parking;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.res.TypedArrayUtils;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -30,11 +22,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -53,22 +43,17 @@ public class TransitionActivity extends AppCompatActivity {
     List<String> dataGrandLyon;
     String reponseGrandLyon;
     ArrayList<Integer> list_parking;
-    double[] coord;
     private LatLng destinationcoord;
     CountDownLatch countDownLatch;
     boolean payant;
     boolean gratuit;
     String weekOuSemaine;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transition);
         countDownLatch = new CountDownLatch(1);
-        System.out.println("Count (from OnCreate):");
-        System.out.println(countDownLatch.getCount());
         parkingsAvecTR = new ArrayList<Integer>();
         etat_parkingsAvecTR = new ArrayList<String>();
         try {
@@ -95,7 +80,6 @@ public class TransitionActivity extends AppCompatActivity {
             return;}
         else{
             double[] coord = new double[]{destinationcoord.longitude, destinationcoord.latitude};}
-
         ///jours feries en France
         ArrayList<Date> jourFeries = new ArrayList<>();
 
@@ -138,21 +122,13 @@ public class TransitionActivity extends AppCompatActivity {
         }
         catch (ParseException e){e.printStackTrace();}
 
-
-
         ///vérifier le jour de la semaine
         Calendar calendar = Calendar.getInstance();
-        System.out.println("Calendar");
-        System.out.println(Calendar.DAY_OF_WEEK);
-        System.out.println(Calendar.SUNDAY);
-        System.out.println(Calendar.SATURDAY);
-        System.out.println(calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY);
         try {
             Date date_depart = format.parse(date);
             calendar.setTime(date_depart);
             if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || jourFeries.contains(date_depart)){
                 weekOuSemaine = "weekend";
-                System.out.println("WEEKEND");
             }
             else{ weekOuSemaine = "semaine";}
         } catch (ParseException e) {
@@ -232,28 +208,6 @@ public class TransitionActivity extends AppCompatActivity {
 
 
             }
-            /*
-            while (k<list_parking.size()) {
-                if (!gratuit)
-                {
-                    if (Parking.gratuit(list_parking.get(k))) {
-                        list_parking.remove(k);
-                    }
-                }
-
-                if (!payant)
-                {
-                    if (!Parking.gratuit(list_parking.get(k))){
-                        list_parking.remove(k);
-                    }
-                }
-                k++;
-                }
-                */
-            System.out.println(rayon);
-            System.out.println("DataGrandLyon (info et size)");
-            System.out.println(dataGrandLyon);
-            System.out.println(dataGrandLyon.size());
             for (int i =0;i<dataGrandLyon.size()-1;i++){
                 int Index = Parking.findIndexbyID(dataGrandLyon.get(i).split(",")[0].replace("(",""));
                 if ( list_parking.contains(Index)){
@@ -261,12 +215,8 @@ public class TransitionActivity extends AppCompatActivity {
                     etat_parkingsAvecTR.add(dataGrandLyon.get(i).split(",")[2]);
                 }
             }
-            System.out.println("Countdown");
-            System.out.println("Etat Parkings:");
-            System.out.println(etat_parkingsAvecTR);
             reponseGrandLyon = result;
-            System.out.println("Count from JSONtask");
-            System.out.println(countDownLatch.getCount());}
+            }
         }
     }
 
@@ -297,7 +247,6 @@ public class TransitionActivity extends AppCompatActivity {
             // May throw an IOException
             address = coder.getFromLocationName(strAddress, 5);
             if (address.size() == 0 ){
-                System.out.println("Address size = 0");
                 return null;
 
             }
@@ -331,8 +280,6 @@ public class TransitionActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                System.out.println("Count from wait for reponse:");
-                System.out.println(countDownLatch.getCount());
                 countDownLatch.await();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -354,9 +301,6 @@ public class TransitionActivity extends AppCompatActivity {
             i.putIntegerArrayListExtra("parkingsAvecTR",parkingsAvecTR);
             i.putStringArrayListExtra("etat_parkingsAvecTR",etat_parkingsAvecTR);
             i.putIntegerArrayListExtra("list_parking",list_parking);
-            System.out.print("Count onPostExecute:");
-            System.out.println(countDownLatch.getCount());
-            System.out.println("Intent Sent");
             context.startActivity(i);
             finish();
 

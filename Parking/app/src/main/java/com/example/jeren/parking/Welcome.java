@@ -9,15 +9,10 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.text.Layout;
 import android.text.format.DateFormat;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,20 +20,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -49,12 +38,9 @@ import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.vision.text.Text;
 
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.zip.Inflater;
-
 
 /**
  * Created by jeren on 2017/2/5.
@@ -63,7 +49,6 @@ import java.util.zip.Inflater;
 public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private Button recherche;
-    private CheckBox check;
 
     private int yearFinal;
     private int monthFinal;
@@ -75,7 +60,6 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
     private int day;
     private int hour;
     private int minute;
-    private String todate;
 
     /// Rayon
     private static SeekBar seek_bar;
@@ -86,11 +70,6 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
     private static final String LOG_TAG = "MainActivity";
     private static final int GOOGLE_API_CLIENT_ID = 0;
     private AutoCompleteTextView destination;
-    private TextView mNameTextView;
-    private TextView mAddressTextView;
-    private TextView mIdTextView;
-    private TextView mPhoneTextView;
-    private TextView mWebTextView;
     private TextView mAttTextView;
     private TextView date;
     private TextView moment;
@@ -232,7 +211,6 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
         double depart_time = (double) (hourFinal  + minuteFinal/60); //idem pour l'heure et le minute. Unité des heures
         if (!isOnline()) {
             try {
-                System.out.println("is not online");
                 AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
 
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -246,7 +224,7 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
                 alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
                 return;
             }
-            catch (Exception e){e.printStackTrace();                 System.out.println("online exception");}
+            catch (Exception e){e.printStackTrace();                 }
         }
 
         if (todestination.isEmpty()) {
@@ -272,7 +250,6 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
         i.putExtra("rayon",rayon);
         if (radioJemenfou.isChecked()) /// si payant ou gratuit choisi
         {
-            System.out.println("all true");
             i.putExtra("payant",true);
             i.putExtra("gratuit",true);
         }
@@ -290,15 +267,12 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
     @Override
     public void onConnected(Bundle bundle) {
         mPlaceArrayAdapter.setGoogleApiClient(mGoogleApiClient);
-        Log.i(LOG_TAG, "Google Places API connected.");
 
     }
 
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.e(LOG_TAG, "Google Places API connection failed with error code: "
-                + connectionResult.getErrorCode());
 
         Toast.makeText(this,
                 "Google Places API connection failed with error code:" +
@@ -309,7 +283,6 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
     @Override
     public void onConnectionSuspended(int i) {
         mPlaceArrayAdapter.setGoogleApiClient(null);
-        Log.e(LOG_TAG, "Google Places API connection suspended.");
     }
 
 
@@ -357,11 +330,9 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             final PlaceArrayAdapter.PlaceAutocomplete item = mPlaceArrayAdapter.getItem(position);
             final String placeId = String.valueOf(item.placeId);
-            Log.i(LOG_TAG, "Selected: " + item.description);
             PendingResult<PlaceBuffer> placeResult = Places.GeoDataApi
                     .getPlaceById(mGoogleApiClient, placeId);
             placeResult.setResultCallback(mUpdatePlaceDetailsCallback);
-            Log.i(LOG_TAG, "Fetching details for ID: " + item.placeId);
         }
     };
 
@@ -370,8 +341,7 @@ public class Welcome extends AppCompatActivity implements GoogleApiClient.OnConn
         @Override
         public void onResult(PlaceBuffer places) {
             if (!places.getStatus().isSuccess()) {
-                Log.e(LOG_TAG, "Place query did not complete. Error: " +
-                        places.getStatus().toString());
+                        places.getStatus().toString();
                 return;
             }
             // Selecting the first object buffer.

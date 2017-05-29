@@ -5,11 +5,9 @@ package com.example.jeren.parking;
  */
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -18,8 +16,6 @@ import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -34,7 +30,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 
 
 import java.io.IOException;
@@ -53,16 +48,7 @@ public  class Map extends Fragment implements OnMapReadyCallback {
 
     GoogleMap mMap;
     MapView mMapView;
-    View rootView;
-    private Button btnFindPath;
-    private EditText etOrigin;
-    private EditText etDestination;
-    private List<Marker> originMarkers = new ArrayList<>();
-    private List<Marker> destinationMarkers = new ArrayList<>();
-    private List<Polyline> polylinePaths = new ArrayList<>();
-    private ProgressDialog progressDialog;
     private String destination;
-    private String date;
     private String weekOuSemaine;
     private double depart_time;
     private LatLng destinationcoord;
@@ -100,43 +86,16 @@ public  class Map extends Fragment implements OnMapReadyCallback {
         View rootView = inflater.inflate(R.layout.mapfragment, container, false);
 
         probapopup = (TextView) rootView.findViewById(R.id.probapopup);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-            /*
-            btnFindPath = (Button) rootView.findViewById(R.id.btnFindPath);
-            etOrigin = (EditText) rootView.findViewById(R.id.etOrigin);
-            etDestination = (EditText) rootView.findViewById(R.id.etDestination);
 
-            // Get the intent extra params
-               Intent intent = getActivity().getIntent();
-                destination = intent.getStringExtra("destination");
-                date = intent.getStringExtra("date");
-                depart_time = intent.getStringExtra("depart_time");
-            */
-        // Create a textview for test
-               /*
-            TextView test = (TextView) rootView.findViewById(R.id.Test);
-            test.setText("Destination : " + destination + " " + date + " " + depart_time);
-            btnFindPath.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    sendRequest();
-                }
-            });
-            */
         Intent intent = getActivity().getIntent();
         destination = intent.getStringExtra("destination");
-        date = intent.getStringExtra("date");
         weekOuSemaine = intent.getStringExtra("weekOuSemaine");
-        System.out.println("WeekOuSemaine : ");
-        System.out.println(weekOuSemaine);
         depart_time = intent.getDoubleExtra("depart_time", 0);
         rayon = intent.getExtras().getInt("rayon");
         parkingsAvecTR = intent.getIntegerArrayListExtra("parkingsAvecTR");
         etat_parkingsAvecTR = intent.getStringArrayListExtra("etat_parkingsAvecTR");
         list_parking = intent.getIntegerArrayListExtra("list_parking");
         mMapView = (MapView) rootView.findViewById(R.id.mapfrag);
-        System.out.println("From Map: etat");
-        System.out.println(etat_parkingsAvecTR);
         return rootView;
 
 
@@ -202,8 +161,6 @@ public  class Map extends Fragment implements OnMapReadyCallback {
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                System.out.println("Map clicked");
-                System.out.println(relativeLayout);
                 if (relativeLayout.getVisibility() == View.VISIBLE){ relativeLayout.setVisibility(View.INVISIBLE);}
 
             }
@@ -235,26 +192,7 @@ public  class Map extends Fragment implements OnMapReadyCallback {
                     new FillPopUpWindow(selectedMarker).execute();}
                 else
                 {relativeLayout.setVisibility(View.INVISIBLE);}
-                /*
-                Geocoder geoCoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
-                try {
-                    List<Address> addresses =
-                            geoCoder.getFromLocation(((double[]) MarkerCoord.get(marker))[1], ((double[]) MarkerCoord.get(marker))[0], 1);
 
-                    if (addresses.size() > 0) {
-                        for (int i = 0; i < addresses.get(0).getMaxAddressLineIndex(); i++)
-                            filterAddress += addresses.get(0).getAddressLine(i) + ",";
-                    }
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                } catch (Exception e2) {
-                    // TODO: handle exception
-                    e2.printStackTrace();
-                }
-                selectedMarkerAdress = filterAddress;
-                adressepopup.setText(filterAddress);
-
-*/
                 return false;
 
             }

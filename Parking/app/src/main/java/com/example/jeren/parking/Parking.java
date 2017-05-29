@@ -59,28 +59,10 @@ public class Parking {
 
 
     }
-    //public private createParkings(){
-    public static void main(String[] args){
-
-
-
-
-    }
-
-
-
-
-
 
     public static String getNomIndex(int i)
     {
         return nomList.get(i);
-    }
-
-
-    public static int getIndexNom(String s)
-    {
-        return nomList.indexOf(s);
     }
 
     public static String getIdIndex(int i)
@@ -99,59 +81,14 @@ public class Parking {
 
     public static String getFermetureIndex(int i) {return fermetureList.get(i);}
 
-    public static  String getCommuneIndex(int i)
-    {
-        return communeList.get(i);
-    }
-
-    public static  String getProprietaireIndex(int i)
-    {
-        return proprietaireList.get(i);
-    }
-
     public static  String getGestionnaireIndex(int i)
     {
         return gestionnaireList.get(i);
     }
 
-    public static  String getEntreeIndex(int i)
-    {
-        return voieentreeList.get(i);
-    }
-
-    public static String getSortieIndex(int i)
-    {
-        return voiesortieList.get(i);
-    }
-
-    public static  String getAvancementIndex(int i)
-    {
-        return avancementList.get(i);
-    }
-
-    public static  String getSituationIndex(int i)
-    {
-        return situationList.get(i);
-    }
-
-    public static String getTRIndex(int i)
-    {
-        return ParkingtempsreelList.get(i);
-    }
-
     public static String getCapaciteIndex(int i)
     {
         return capaciteList.get(i);
-    }
-
-    public static  String getUsageIndex(int i)
-    {
-        return usageList.get(i);
-    }
-
-    public static String getVocationIndex(int i)
-    {
-        return vocationList.get(i);
     }
 
     public static  String getReglementationIndex(int i)
@@ -184,9 +121,6 @@ public class Parking {
 
         try {
             InputStream is = context.getAssets().open("infocomplete.txt");
-
-
-
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
@@ -346,25 +280,6 @@ public class Parking {
 
 
     }
-
-    //(lat, lon)
-    public double distanceParkings(int a, int b)
-    {
-        double[] coordA = Parking.getCoordIndex(a);
-        double[] coordB = Parking.getCoordIndex(b);
-        double pi = Math.PI;
-
-
-        int R = 6378137;
-        double dLat = coordA[0]*pi/180 - coordB[0]*pi/180;
-        double dLon = coordA[1]*pi/180 - coordB[1]*pi/180;
-        double lat1 = coordA[0]*pi/180;
-        double lat2 = coordB[0]*pi/180;
-        double angle = Math.sin(dLat/2) * Math.sin(dLat/2) +  Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
-        double c = 2 * Math.atan2(Math.sqrt(angle), Math.sqrt(1-angle));
-        return R * c;
-    }
-
     public static double distance(double[] coordA, int b)
     {
         double[] coordB = Parking.getCoordIndex(b);
@@ -381,46 +296,15 @@ public class Parking {
         return R * c;
     }
 
-/// rayon en metres
-    /*
-    public static int[] parkingsProches(double[] coord, int rayon)
-    {
-        boolean[] dedans = new boolean[999];
-        int count = 0;
-        for (int i = 0; i<999;i++)
-        {
-            if (Parking.distance(coord, i) < rayon)
-            {
-                dedans[i] = true;
-                count++;
-            }
-        }
-        int[] parkings = new int[count];
-        int index = 0;
-
-
-        for (int k = 0; k<dedans.length;k++)
-        {
-            if (dedans[k])
-            {
-                parkings[index] = k;
-                index++;
-            }
-        }
-        return parkings;
-    }
-    */
     public static ArrayList<Integer> parkingsProches(double[] coord, int rayon)
     {
 
         boolean[] dedans = new boolean[999];
-        int count = 0;
         for (int i = 0; i<999;i++)
         {
             if (Parking.distance(coord, i) < rayon)
             {
                 dedans[i] = true;
-                count++;
             }
         }
 

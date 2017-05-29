@@ -2,22 +2,17 @@ package com.example.jeren.parking;
 
 import android.app.ActionBar;
 import android.content.Intent;
-import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.google.android.gms.maps.model.Marker;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -108,7 +103,6 @@ public class InfoWindowActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String uriintent = "google.navigation:q=" + address + "&mode=d";
-                ///Double.toString(((double[]) MarkerCoord.get(selectedMarker))[1]) +"," + Double.toString(((double[]) MarkerCoord.get(selectedMarker))[0]) +"&mode=d";
                 Uri gmmIntentUri = Uri.parse(uriintent);
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 mapIntent.setPackage("com.google.android.apps.maps");

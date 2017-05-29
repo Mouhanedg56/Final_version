@@ -96,7 +96,7 @@
             <ImageButton
                 android:id="@+id/imageButton2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="74dp"
                 android:backgroundTint="@color/cardview_light_background"
                 app:srcCompat="@drawable/calendaricon" />
 
@@ -128,7 +128,7 @@
             <ImageButton
                 android:id="@+id/imageButton5"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="94dp"
                 android:backgroundTint="@color/cardview_light_background"
                 app:srcCompat="@drawable/clockicon" />
 

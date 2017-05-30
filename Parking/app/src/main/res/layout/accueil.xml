@@ -16,15 +16,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="335dp"
         android:layout_marginBottom="1dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="1dp"
         android:background="@drawable/bg_focused"
         android:orientation="vertical"
-        android:weightSum="1"
-        android:layout_weight="0.44">
+        android:weightSum="1">
 
         <TextView
             android:id="@+id/destination"
@@ -87,31 +86,30 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dip"
-            android:orientation="horizontal"
             android:layout_gravity="bottom"
+            android:layout_margin="5dip"
             android:gravity="bottom"
+            android:orientation="horizontal"
             android:weightSum="1">
 
             <ImageButton
                 android:id="@+id/imageButton2"
                 android:layout_width="wrap_content"
-                android:layout_height="74dp"
+                android:layout_height="wrap_content"
                 android:backgroundTint="@color/cardview_light_background"
                 app:srcCompat="@drawable/calendaricon" />
 
 
             <TextView
                 android:id="@+id/dateTxtAccueil"
+                style="@style/Widget.AppCompat.EditText"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="15dip"
-                android:ems="10"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:ems="10"
                 android:gravity="center_vertical"
-                style = "@style/Widget.AppCompat.EditText"
-                android:hint = "Quel jour?" />
-
+                android:hint="Quel jour?"
+                android:textSize="15dip" />
 
 
         </LinearLayout>
@@ -119,30 +117,30 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dip"
-            android:orientation="horizontal"
             android:layout_gravity="bottom"
+            android:layout_margin="5dip"
             android:gravity="bottom"
+            android:orientation="horizontal"
             android:weightSum="1">
 
             <ImageButton
                 android:id="@+id/imageButton5"
                 android:layout_width="wrap_content"
-                android:layout_height="94dp"
+                android:layout_height="wrap_content"
                 android:backgroundTint="@color/cardview_light_background"
                 app:srcCompat="@drawable/clockicon" />
 
 
             <TextView
                 android:id="@+id/timeTxtAccueil"
+                style="@style/Widget.AppCompat.EditText"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textSize="15dip"
-                android:ems="10"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:ems="10"
                 android:gravity="center_vertical"
-                style = "@style/Widget.AppCompat.EditText"
-                android:hint="À quelle heure?" />
+                android:hint="À quelle heure?"
+                android:textSize="15dip" />
 
 
         </LinearLayout>

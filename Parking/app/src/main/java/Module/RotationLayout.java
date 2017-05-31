@@ -21,7 +21,6 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-import com.example.jeren.parking.R;
 
 /**
  * RotationLayout rotates the contents of the layout by multiples of 90 degrees.

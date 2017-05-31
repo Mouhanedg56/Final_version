@@ -4,7 +4,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion "25.0.1"
     defaultConfig {
-        applicationId "com.example.jeren.parking"
+        applicationId "com.centrale.parktout.parking"
         minSdkVersion 15
         targetSdkVersion 24
         versionCode 1

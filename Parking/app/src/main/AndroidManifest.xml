@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.jeren.parking">
+    package="com.centrale.parktout.parking">
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -22,7 +22,7 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.centrale.parktout.parking.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,18 +30,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TabActivity"
+            android:name="com.centrale.parktout.parking.TabActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="com.example.jeren.parking.TAB" />
+                <action android:name="com.centrale.parktout.parking.TAB" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".Welcome">
+        <activity android:name="com.centrale.parktout.parking.Welcome">
             <intent-filter>
-                <action android:name="com.example.jeren.parking.WELCOME" />
+                <action android:name="com.centrale.parktout.parking.WELCOME" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -59,9 +59,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".Map">
+        <activity android:name="com.centrale.parktout.parking.Map">
             <intent-filter>
-                <action android:name="com.example.jeren.parking.MAP" />
+                <action android:name="com.centrale.parktout.parking.MAP" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -74,17 +74,17 @@
             android:layout_height="match_parent" />
 
         <activity
-            android:name=".TransitionActivity"
+            android:name="com.centrale.parktout.parking.TransitionActivity"
             android:label="@string/title_activity_transition"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="com.example.jeren.parking.TRANSITION" />
+                <action android:name="com.centrale.parktout.parking.TRANSITION" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".InfoWindowActivity"
+            android:name="com.centrale.parktout.parking.InfoWindowActivity"
             android:label="@string/title_activity_info_window"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

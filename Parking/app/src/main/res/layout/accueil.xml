@@ -198,4 +198,10 @@
 
 
     </LinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        app:srcCompat="@drawable/powered_by_google_on_white"
+        android:id="@+id/place_autocomplete_powered_by_google" />
+
 </LinearLayout>
